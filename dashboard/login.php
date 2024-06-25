@@ -25,7 +25,7 @@ if(isset($_REQUEST["submit"])){
       $_SESSION["userid"]=$ui;
       $_SESSION["username"]=$row["username"];
      
-    header("location:index1.php");
+    header("location:index.php");
     }
     else
     {

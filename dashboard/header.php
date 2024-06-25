@@ -5,9 +5,9 @@ date_default_timezone_set('Asia/Kolkata');
 $obj = new DB_Connect();
 session_start();
 
-// if (!isset($_SESSION["index1.php"])) {
-//   header("location:login.php");
-//   }
+if (!isset($_SESSION["userlogin"])) {
+  header("location:login.php");
+  }
 
 ?>
 <!DOCTYPE html>
