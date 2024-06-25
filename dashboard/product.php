@@ -121,16 +121,7 @@ function deletedata(id) {
                                     <th scope="row"><?php echo $i ?></th>
                                     <td><?php echo $row["name"]; ?></td>
                                     <td>
-                                        <?php
-                                            $img_array = array("jpg", "jpeg", "png", "bmp");
-                                            $extn = strtolower(pathinfo($row["image"], PATHINFO_EXTENSION));
-                                            if (in_array($extn, $img_array)) {
-                                                ?>
-                                        <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
-                                            style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
-                                            class="object-fit-cover shadow rounded">
-                                        <?php
-                                                } ?>
+                                        <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200" class="object-fit-cover shadow rounded">
                                     </td>
                                     <td>
                                         <h4><span

@@ -53,7 +53,7 @@ if (isset($_REQUEST["save"])) {
   try {
     // echo ("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
     $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("ssssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
+    $stmt->bind_param("ssssssss", $name, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -84,6 +84,9 @@ if (isset($_REQUEST["update"])) {
   $chemical_comp = $_REQUEST["chemical_comp"];
   $mech_prop = $_REQUEST["mech_prop"];
   $status = $_REQUEST["radio"];
+  $img_path = $_FILES['img_path']['name'];
+  $img_path = str_replace(' ', '_', $img_path);
+  $temp_img_path = $_FILES['img_path']['tmp_name'];
 
   if ($img_path != "") {
     if (file_exists("images/product/" . $img_path)) {
@@ -109,7 +112,7 @@ if (isset($_REQUEST["update"])) {
   try {
     $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
 
-    $stmt->bind_param("ssssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
+    $stmt->bind_param("ssssssssi", $name, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
