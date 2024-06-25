@@ -168,7 +168,12 @@ session_start();
             <span>Contact Us</span>
           </a>
         </li>
-
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="services.php">
+          <i class="bi bi-filter-left"></i>
+          <span>Services </span>
+        </a>
+      </li>
 
 
       </ul>
