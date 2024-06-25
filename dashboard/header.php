@@ -6,11 +6,9 @@ $obj = new DB_Connect();
 session_start();
 
 // if (!isset($_SESSION["index1.php"])) {
-//   header("location:index1.php");
+//   header("location:login.php");
 //   }
 
-$dashborad_menu = array("index.php");
-$masters_menu = array("about_us.php", "primary_benifits.php", "product.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,8 +104,11 @@ $masters_menu = array("about_us.php", "primary_benifits.php", "product.php");
       <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
 
-
-
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li>
 
           <li class="nav-item dropdown pe-3">
 
@@ -117,18 +118,6 @@ $masters_menu = array("about_us.php", "primary_benifits.php", "product.php");
             </a><!-- End Profile Iamge Icon -->
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-
-
-              <!-- <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            
-            <li>
-              <hr class="dropdown-divider">
-            </li> -->
               <li>
                 <a class="dropdown-item d-flex align-items-center" href="change_password.php">
                   <i class="bi bi-key"></i>
@@ -173,13 +162,16 @@ $masters_menu = array("about_us.php", "primary_benifits.php", "product.php");
             <span>Primary Benifits</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="contact_us.php">
+            <i class="bi bi-telephone"></i>
+            <span>Contact Us</span>
+          </a>
+        </li>
 
 
 
       </ul>
-      </li><!-- End Forms Nav -->
-      </ul>
-
     </aside><!-- End Sidebar-->
 
     <main id="main" class="main">
