@@ -31,7 +31,6 @@ if (isset($_REQUEST['update'])) {
     $image = str_replace(' ', '_', $image);
     $a_image_path = $_FILES['image']['tmp_name'];
     $old_img = $_REQUEST['old_img'];
-    $status = $_REQUEST["radio"] ?? '';
 
     if ($image != "") {
         if (file_exists("images/about/" . $image)) {

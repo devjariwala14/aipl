@@ -109,9 +109,6 @@ if (isset($_REQUEST["btndelete"])) {
                                 <th scope="col">Sr no.</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Vision</th>
-                                <th scope="col">Mission</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -137,9 +134,6 @@ if (isset($_REQUEST["btndelete"])) {
                                             <?php
                                         } ?>
                                     </td>
-                                    <td><?php echo $row["description"] ?></td>
-                                    <td><?php echo $row["vision"] ?></td>
-                                    <td><?php echo $row["mission"] ?></td>
                                     <td>
                                         <a href="javascript:viewdata('<?php echo $row["id"] ?>')"><i
                                                 class="bx bx-show-alt bx-sm me-2"></i> </a>

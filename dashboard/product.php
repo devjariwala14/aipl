@@ -1,5 +1,6 @@
 <?php
 include "header.php";
+include "alert.php";
 
 
 if (isset($_REQUEST["btndelete"])) {
@@ -34,28 +35,28 @@ if (isset($_REQUEST["btndelete"])) {
     }
 ?>
 <script type="text/javascript">
-    function add_data() {
-        eraseCookie("edit_id");
-        eraseCookie("view_id");
-        window.location = "add_product.php";
-    }
+function add_data() {
+    eraseCookie("edit_id");
+    eraseCookie("view_id");
+    window.location = "add_product.php";
+}
 
-    function editdata(id) {
-        eraseCookie("view_id");
-        createCookie("edit_id", id, 1);
-        window.location = "add_product.php";
-    }
+function editdata(id) {
+    eraseCookie("view_id");
+    createCookie("edit_id", id, 1);
+    window.location = "add_product.php";
+}
 
-    function viewdata(id) {
-        eraseCookie("edit_id");
-        createCookie("view_id", id, 1);
-        window.location = "add_product.php";
-    }
+function viewdata(id) {
+    eraseCookie("edit_id");
+    createCookie("view_id", id, 1);
+    window.location = "add_product.php";
+}
 
-    function deletedata(id) {
-        $('#deleteModal').modal('toggle');
-        $('#delete_id').val(id);
-    }
+function deletedata(id) {
+    $('#deleteModal').modal('toggle');
+    $('#delete_id').val(id);
+}
 </script>
 
 <div class="modal fade" id="deleteModal" tabindex="-1">
@@ -105,11 +106,7 @@ if (isset($_REQUEST["btndelete"])) {
                                     <th scope="col">Sr.no</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Image</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Application</th>
-                                    <th scope="col">Specification</th>
-                                    <th scope="col">Chemical Composition</th>
-                                    <th scope="col">Mechanical Properties</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -120,37 +117,37 @@ if (isset($_REQUEST["btndelete"])) {
                                 $Resp = $stmt->get_result();
                                 $i = 1;
                                 while ($row = mysqli_fetch_array($Resp)) { ?>
-                                    <tr>
-                                        <th scope="row"><?php echo $i ?></th>
-                                        <td><?php echo $row["name"]; ?></td>
-                                        <td>
-                                            <?php
+                                <tr>
+                                    <th scope="row"><?php echo $i ?></th>
+                                    <td><?php echo $row["name"]; ?></td>
+                                    <td>
+                                        <?php
                                             $img_array = array("jpg", "jpeg", "png", "bmp");
                                             $extn = strtolower(pathinfo($row["image"], PATHINFO_EXTENSION));
                                             if (in_array($extn, $img_array)) {
                                                 ?>
-                                                <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
-                                                    style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
-                                                    class="object-fit-cover shadow rounded">
-                                                <?php
+                                        <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
+                                            style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
+                                            class="object-fit-cover shadow rounded">
+                                        <?php
                                                 } ?>
-                                        </td>
-                                        <td><?php echo $row["description"]; ?></td>
-                                        <td><?php echo $row["application"]; ?></td>
-                                        <td><?php echo $row["specification"]; ?></td>
-                                        <td><?php echo $row["chemical_comp"]; ?></td>
-                                        <td><?php echo $row["mech_prop"]; ?></td>
-                                        <td>
-                                            <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
-                                                    class="bx bx-show-alt bx-sm me-2"></i></a>
-                                            <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
-                                                    class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
-                                            <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
-                                                    class="bx bx-trash bx-sm text-danger"></i></a>
-                                        </td>
-                                        </td>
-                                    </tr>
-                                    <?php $i++;
+                                    </td>
+                                    <td>
+                                        <h4><span
+                                                class="badge rounded-pill bg-<?php echo ($row['status']=='Enable')?'success':'danger'?>"><?php echo $row["status"]; ?></span>
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
+                                                class="bx bx-show-alt bx-sm me-2"></i></a>
+                                        <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
+                                                class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
+                                        <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
+                                                class="bx bx-trash bx-sm text-danger"></i></a>
+                                    </td>
+                                    </td>
+                                </tr>
+                                <?php $i++;
                                     }
                                 ?>
                             </tbody>

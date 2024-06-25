@@ -28,6 +28,7 @@ if (isset($_REQUEST["save"])) {
    $specification = $_REQUEST["specification"];
    $chemical_comp = $_REQUEST["chemical_comp"];
    $mech_prop = $_REQUEST["mech_prop"];
+   $status = $_REQUEST["radio"];
  
   $img_path = $_FILES['img_path']['name'];
   $img_path = str_replace(' ', '_', $img_path);
@@ -51,8 +52,8 @@ if (isset($_REQUEST["save"])) {
 
   try {
     // echo ("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
-    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES (?,?,?,?,?,?,?)");
-    $stmt->bind_param("sssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop);
+    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("ssssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -82,7 +83,7 @@ if (isset($_REQUEST["update"])) {
   $specification = $_REQUEST["specification"];
   $chemical_comp = $_REQUEST["chemical_comp"];
   $mech_prop = $_REQUEST["mech_prop"];
- 
+  $status = $_REQUEST["radio"];
 
   if ($img_path != "") {
     if (file_exists("images/product/" . $img_path)) {
@@ -106,9 +107,9 @@ if (isset($_REQUEST["update"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=? WHERE `id`=?");
+    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
 
-    $stmt->bind_param("sssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop , $id);
+    $stmt->bind_param("ssssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -207,6 +208,28 @@ if (isset($_REQUEST["update"])) {
                             <textarea class="tinymce-editor" name="mech_prop" id="mech_prop"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['mech_prop'] : '' ?></textarea>
                        </div>
+
+                       <div class="col-md-6 mt-2">
+                            <label for="inputEmail5" class="form-label">Status</label> <br />
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="radio" id="radio"
+                                    <?php echo isset($mode) && $data['status'] == 'Enable' ? 'checked' : '' ?>
+                                    class="form-radio text-primary" value="Enable" checked required
+                                    <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> />
+                                <label class="form-check-label" for="gridRadios1">
+                                    Enable
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="radio" id="radio"
+                                    <?php echo isset($mode) && $data['status'] == 'Disable' ? 'checked' : '' ?>
+                                    class="form-radio text-danger" value="Disable" required
+                                    <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> />
+                                <label class="form-check-label" for="gridRadios2">
+                                    Disable
+                                </label>
+                            </div>
+                        </div>
 
                         <div class="text-left mt-4">
                 <button type="submit" name="<?php echo isset($mode) && $mode == 'edit' ? 'update' : 'save' ?>" id="save"
