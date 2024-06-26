@@ -2,6 +2,7 @@
 include "header.php";
 ?>
 <?php
+echo $product_id = $_COOKIE['product_id'];
 $stmt = $obj->con1->prepare("SELECT * FROM `product`ORDER BY `id` DESC");
 $stmt->execute();
 $Resp = $stmt->get_result();
