@@ -7,7 +7,7 @@ if (isset($_REQUEST["btndelete"])) {
     $p_id = $_REQUEST['delete_id'];
 
     try {
-        $stmt_subimg = $obj->con1->prepare("SELECT * FROM `product` WHERE id=?");
+        $stmt_subimg = $obj->con1->prepare("SELECT * FROM `product_details` WHERE id=?");
         $stmt_subimg->bind_param("i", $p_id);
         $stmt_subimg->execute();
         $Resp_subimg = $stmt_subimg->get_result()->fetch_assoc();
@@ -17,7 +17,7 @@ if (isset($_REQUEST["btndelete"])) {
             unlink("images/product/" . $Resp_subimg["img_path"]);
             }
 
-        $stmt_del = $obj->con1->prepare("DELETE FROM `product` WHERE id=?");
+        $stmt_del = $obj->con1->prepare("DELETE FROM `product_details` WHERE id=?");
         $stmt_del->bind_param("i", $p_id);
         $Resp = $stmt_del->execute();
         if (!$Resp) {
@@ -31,26 +31,26 @@ if (isset($_REQUEST["btndelete"])) {
     if ($Resp) {
         setcookie("msg", "data_del", time() + 3600, "/");
         }
-    header("location:product.php");
+    header("location:product_details.php");
     }
 ?>
 <script type="text/javascript">
 function add_data() {
     eraseCookie("edit_id");
     eraseCookie("view_id");
-    window.location = "add_product.php";
+    window.location = "add_product_details.php";
 }
 
 function editdata(id) {
     eraseCookie("view_id");
     createCookie("edit_id", id, 1);
-    window.location = "add_product.php";
+    window.location = "add_product_details.php";
 }
 
 function viewdata(id) {
     eraseCookie("edit_id");
     createCookie("view_id", id, 1);
-    window.location = "add_product.php";
+    window.location = "add_product_details.php";
 }
 
 function deletedata(id) {
@@ -80,11 +80,11 @@ function deletedata(id) {
     </div>
 </div>
 <div class="pagetitle">
-    <h1>Products</h1>
+    <h1>Products Details</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Products</li>
+            <li class="breadcrumb-item">Products Details</li>
             <li class="breadcrumb-item active">Data</li>
         </ol>
     </nav>
@@ -112,7 +112,7 @@ function deletedata(id) {
                             </thead>
                             <tbody>
                                 <?php
-                                $stmt = $obj->con1->prepare("SELECT * FROM `product`ORDER BY `id` DESC");
+                                $stmt = $obj->con1->prepare("SELECT * FROM `product_details`ORDER BY `id` DESC");
                                 $stmt->execute();
                                 $Resp = $stmt->get_result();
                                 $i = 1;
@@ -152,25 +152,6 @@ function deletedata(id) {
         </div>
     </div>
 </section>
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this record?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <?php
 include "footer.php";
