@@ -4,7 +4,7 @@ include "header.php";
 if (isset($_COOKIE['edit_id'])) {
   $mode = 'edit';
   $editId = $_COOKIE['edit_id'];
-  $stmt = $obj->con1->prepare("SELECT * FROM `product` where id=?");
+  $stmt = $obj->con1->prepare("SELECT * FROM `product_details` where id=?");
   $stmt->bind_param('i', $editId);
   $stmt->execute();
   $data = $stmt->get_result()->fetch_assoc();
@@ -14,7 +14,7 @@ if (isset($_COOKIE['edit_id'])) {
 if (isset($_COOKIE['view_id'])) {
   $mode = 'view';
   $viewId = $_COOKIE['view_id'];
-  $stmt = $obj->con1->prepare("SELECT * FROM `product` where id=?");
+  $stmt = $obj->con1->prepare("SELECT * FROM `product_details` where id=?");
   $stmt->bind_param('i', $viewId);
   $stmt->execute();
   $data = $stmt->get_result()->fetch_assoc();
@@ -51,8 +51,8 @@ if (isset($_REQUEST["save"])) {
   }
 
   try {
-    // echo ("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
-    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
+    // echo ("INSERT INTO `product_details`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
+    $stmt = $obj->con1->prepare("INSERT INTO `product_details`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
     $stmt->bind_param("ssssssss", $name, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
     $Resp = $stmt->execute();
     if (!$Resp) {
@@ -68,10 +68,10 @@ if (isset($_REQUEST["save"])) {
   if ($Resp) {
     move_uploaded_file($temp_img_path, "images/product/" . $PicFileName);
     setcookie("msg", "data", time() + 3600, "/");
-    header("location:product.php");
+    header("location:product_details.php");
   } else {
     setcookie("msg", "fail", time() + 3600, "/");
-    header("location:product.php");
+    header("location:product_details.php");
   }
 }
 
@@ -110,7 +110,7 @@ if (isset($_REQUEST["update"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
+    $stmt = $obj->con1->prepare("UPDATE `product_details` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
 
     $stmt->bind_param("ssssssssi", $name, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
     $Resp = $stmt->execute();
@@ -127,21 +127,21 @@ if (isset($_REQUEST["update"])) {
   if ($Resp) {
     setcookie("edit_id", "", time() - 3600, "/");
     setcookie("msg", "update", time() + 3600, "/");
-    header("location:product.php");
+    header("location:product_details.php");
   } else {
     setcookie("msg", "fail", time() + 3600, "/");
-    header("location:product.php");
+    header("location:product_details.php");
   }
 }
 ?>
 
 
 <div class="pagetitle">
-    <h1>Products</h1>
+    <h1>Products Details</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-            <li class="breadcrumb-item">Products</li>
+            <li class="breadcrumb-item">Products Details</li>
             <li class="breadcrumb-item active">
                 <?php echo (isset($mode)) ? (($mode == 'view') ? 'View' : 'Edit') : 'Add' ?> Info</li>
         </ol>
@@ -238,7 +238,7 @@ if (isset($_REQUEST["update"])) {
                 <button type="submit" name="<?php echo isset($mode) && $mode == 'edit' ? 'update' : 'save' ?>" id="save"
                     class="btn btn-success <?php echo isset($mode) && $mode == 'view' ? 'd-none' : '' ?>"><?php echo isset($mode) && $mode == 'edit' ? 'Update' : 'Save' ?>
                 </button>
-                <button type="button" class="btn btn-danger" onclick="window.location='product.php'">
+                <button type="button" class="btn btn-danger" onclick="window.location='product_details.php'">
                     Close</button>
             </div>
                     </form>
@@ -250,7 +250,7 @@ if (isset($_REQUEST["update"])) {
     function go_back() {
         eraseCookie("edit_id");
         eraseCookie("view_id");
-        window.location = "product.php";
+        window.location = "product_details.php";
     }
     function readURL(input, PreviewImage) {
         if (input.files && input.files[0]) {
