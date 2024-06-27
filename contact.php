@@ -1,5 +1,18 @@
 <?php
 include "header.php";
+
+if (isset($_REQUEST["submit_btn"])) {
+    $name = $_REQUEST["name"];
+    $email = $_REQUEST["email"];
+    $message = $_REQUEST["message"];
+    $contact = $_REQUEST["contact"];
+
+    $stmt_contact = $obj->con1->prepare("INSERT INTO `contact_us`( `name`, `email`, `message`,`phone_no`) VALUES (?,?,?,?)");
+    $stmt_contact->bind_param("ssss", $name, $email, $message, $contact);
+    $stmt_contact->execute();
+
+    $stmt_contact->close();
+}
 ?>
 
 <main id="main">
@@ -134,7 +147,7 @@ include "header.php";
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="input-lg round form-control"
-                                        placeholder="Enter your name" pattern=".{3,100}" required=""
+                                        placeholder="Enter your name"  required
                                         aria-required="true">
                                 </div>
                             </div>
@@ -145,7 +158,7 @@ include "header.php";
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" name="email" id="email" class="input-lg round form-control"
-                                        placeholder="Enter your email" pattern=".{5,100}" required=""
+                                        placeholder="Enter your email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required 
                                         aria-required="true">
                                 </div>
 
@@ -159,17 +172,24 @@ include "header.php";
                                 style="height: 130px;" placeholder="Enter your message"></textarea>
                         </div>
 
+                        <!-- Contact -->
+                        <div class="form-group">
+                            <label for="contact">Contact</label>
+                            <input type="text" name="contact" id="contact" class="input-lg round form-control"
+                                placeholder="Enter your Phone number"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" required
+                                aria-required="true">
+                        </div>
+
                         <div class="row">
                             <div class="col-lg-5">
 
                                 <!-- Send Button -->
                                 <div class="pt-20">
-                                    <button class="submit_btn btn btn-mod btn-large btn-round btn-hover-anim"
-                                        id="submit_btn" aria-controls="result">
-                                        <span>Send Message</span>
-                                    </button>
+                                    <button type="submit" class=" btn btn-mod btn-large btn-round btn-hover-anim"
+                                        id="submit_btn" name="submit_btn">
+                                        <span>Send Message</span></button>
                                 </div>
-
                             </div>
 
                             <div class="col-lg-7">
