@@ -104,7 +104,8 @@ function deletedata(id) {
                             <thead>
                                 <tr>
                                     <th scope="col">Sr.no</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Product Category</th>
+                                    <th scope="col">Product Name</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
@@ -112,16 +113,18 @@ function deletedata(id) {
                             </thead>
                             <tbody>
                                 <?php
-                                $stmt = $obj->con1->prepare("SELECT * FROM `product_details`ORDER BY `id` DESC");
+                                $stmt = $obj->con1->prepare("SELECT pd.*, p.name, pc.category FROM product_details pd JOIN product p ON pd.pro_id = p.id JOIN product_category pc ON pd.cat_id = pc.id ORDER BY pd.id DESC;");
                                 $stmt->execute();
                                 $Resp = $stmt->get_result();
                                 $i = 1;
                                 while ($row = mysqli_fetch_array($Resp)) { ?>
                                 <tr>
-                                    <th scope="row"><?php echo $i ?></th>   
+                                    <th scope="row"><?php echo $i ?></th>
+                                    <td><?php echo $row["category"]; ?></td>
                                     <td><?php echo $row["name"]; ?></td>
                                     <td>
-                                        <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200" class="object-fit-cover shadow rounded">
+                                        <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
+                                            class="object-fit-cover shadow rounded">
                                     </td>
                                     <td>
                                         <h4><span

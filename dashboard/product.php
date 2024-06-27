@@ -113,7 +113,7 @@ function deletedata(id) {
                         </thead>
                         <tbody>
                             <?php
-                            $stmt = $obj->con1->prepare("SELECT p1.*, p2.category FROM `product` p1 JOIN `product_category` p2 ON p1.cat_id = p2.id;");
+                            $stmt = $obj->con1->prepare("SELECT p1.*, p2.category FROM product p1 JOIN product_category p2 ON p1.cat_id = p2.id ORDER BY p1.id DESC;");
                             $stmt->execute();
                             $Resp = $stmt->get_result();
                             $i = 1;
