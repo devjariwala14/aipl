@@ -33,6 +33,16 @@ session_start();
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap"
             rel="stylesheet">
 
+        <script>
+
+            function test(pid) {
+                //   alert("hi!");
+                document.cookie = "product_id=" + pid;
+
+                window.location = "htsp.php";
+            }
+
+        </script>
     </head>
 
     <body class="appear-animate"></body>
@@ -84,24 +94,29 @@ session_start();
                             <!-- Sub -->
                             <ul class="mn-sub">
                                 <?php while ($row = mysqli_fetch_array($Resp)) {
-                                    // $stmt_sub = $obj->con1->prepare("SELECT * FROM `product` WHERE `cat_id`=? AND `status`='Enable'");
-                                    //$stmt_sub->bind_param('i', $row['id']);
-                                    //$stmt_sub->execute();
-                                    //$Resp = $stmt_sub->get_result();
-                                    //$i = 1;
-                                    // $stmt_sub->close();
+                                    $stmt_sub = $obj->con1->prepare("SELECT * FROM `product` WHERE `cat_id`=? AND `status`='Enable'");
+                                    $stmt_sub->bind_param('i', $row['id']);
+                                    $stmt_sub->execute();
+                                    $Resp_sub = $stmt_sub->get_result();
+                                    $i = 1;
+                                    $stmt_sub->close();
                                     ?>
                                     <li>
                                         <a href="#" class="mn-has-sub"><?php echo $row['category'] ?><i
                                                 class="mi-chevron-right right"></i></a>
                                         <ul class="mn-sub">
-                                            <li>
-                                                <a href="main-portfolio-boxed-2col.html" target="_blank">Angles</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <?php
-                                    $i++;
+                                            <?php while ($row_sub = mysqli_fetch_array($Resp_sub)) { ?>
+                                                <li>
+
+
+                                                    <a
+                                                        href="javascript:test('<?= $row_sub['id'] ?>')"><?= $row_sub['name'] ?></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <?php
+                                            }
+                                        $i++;
                                     }
                                 ?>
                                 <!-- 
@@ -147,5 +162,6 @@ session_start();
                 </div>
                 <!-- End Main Menu -->
             </div>
+
         </nav>
         <!-- End Navigation Panel -->
