@@ -118,7 +118,7 @@ function deletedata(id) {
                                 $i = 1;
                                 while ($row = mysqli_fetch_array($Resp)) { ?>
                                 <tr>
-                                    <th scope="row"><?php echo $i ?></th>
+                                    <th scope="row"><?php echo $i ?></th>   
                                     <td><?php echo $row["name"]; ?></td>
                                     <td>
                                         <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200" class="object-fit-cover shadow rounded">

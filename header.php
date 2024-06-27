@@ -33,16 +33,6 @@ session_start();
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap"
             rel="stylesheet">
 
-        <script>
-
-            function test(pid) {
-                //   alert("hi!");
-                document.cookie = "product_id=" + pid;
-
-                window.location = "htsp.php";
-            }
-
-        </script>
     </head>
 
     <body class="appear-animate"></body>
@@ -80,66 +70,40 @@ session_start();
                     <ul class="clearlist local-scroll">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="about.php">About</a></li>
-                        <!-- Item With Sub -->
-                        <li>
-                            <a href="#" class="mn-has-sub">Products <i class="mi-chevron-down"></i></a>
-                            <?php
-                            $stmt = $obj->con1->prepare("SELECT `id`,`category` FROM `product_category` WHERE `status`='Enable' ORDER BY `id` DESC");
-                            $stmt->execute();
-                            $Resp = $stmt->get_result();
-                            $i = 1;
-                            $stmt->close();
-                            // echo $row['category'];
-                            ?>
-                            <!-- Sub -->
-                            <ul class="mn-sub">
-                                <?php while ($row = mysqli_fetch_array($Resp)) {
-                                    $stmt_sub = $obj->con1->prepare("SELECT * FROM `product` WHERE `cat_id`=? AND `status`='Enable'");
-                                    $stmt_sub->bind_param('i', $row['id']);
-                                    $stmt_sub->execute();
-                                    $Resp_sub = $stmt_sub->get_result();
-                                    $i = 1;
-                                    $stmt_sub->close();
-                                    ?>
-                                    <li>
-                                        <a href="#" class="mn-has-sub"><?php echo $row['category'] ?><i
-                                                class="mi-chevron-right right"></i></a>
-                                        <ul class="mn-sub">
-                                            <?php while ($row_sub = mysqli_fetch_array($Resp_sub)) { ?>
-                                                <li>
-
-
-                                                    <a
-                                                        href="javascript:test('<?= $row_sub['id'] ?>')"><?= $row_sub['name'] ?></a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <?php
-                                            }
-                                        $i++;
-                                    }
-                                ?>
-                                <!-- 
-                                    <li>
-                                        <a href="#" class="mn-has-sub">Steel & Bars <i
-                                                class="mi-chevron-right right"></i></a>
-
-                                        <ul class="mn-sub">
-                                            <li>
-                                                <a href="main-portfolio-wide-2col.html" target="_blank">2 Columns</a>
-                                            </li>
-                                            <li>
-                                                <a href="main-portfolio-wide-3col.html" target="_blank">3 Columns</a>
-                                            </li>
-                                            <li>
-                                                <a href="main-portfolio-wide-4col.html" target="_blank">4 Columns</a>
-                                            </li>
-                                        </ul>
-                                    </li> -->
+                        <li><a href="#" class="mn-has-sub">Products <i class="mi-chevron-down"></i></a>
+                            <!-- Sub Megamenu -->
+                            <ul class="mn-sub mn-has-multi">
+                                <li class="mn-sub-multi">
+                                    <span class="mn-group-title">Steel Plates & Coils</span>
+                                    <ul>
+                                        <li><a href="alloysteel.php">Alloy Steel Plate</a></li>
+                                        <li><a href="htsp.php">High Tensile Steel Plates</a></li>
+                                        <li><a href="">Wear Resistant Steel Plates</a></li>
+                                        <li><a href="">Mild Steel Plates </a></li>
+                                        <li><a href="">Boiler Quality Plates</a></li>
+                                        <li><a href="">Chequered Steel Plates</a></li>
+                                        <li><a href="">Carbon Steel Plate</a></li>
+                                        <li><a href="">Mild Carbon Steel</a></li>
+                                        <li><a href="">Hot Rolled Coil</a></li>
+                                        <li><a href="">PPGI Coils</a></li>
+                                    </ul>
+                                </li>
+                                <li class="mn-sub-multi">
+                                    <span class="mn-group-title">Steel & Bars</span>
+                                    <ul>
+                                        <li><a href="">Angles</a></li>
+                                        <li><a href="">Beams</a></li>
+                                        <li><a href="">Colums</a></li>
+                                        <li><a href="">Round Bars</a></li>
+                                        <li><a href="">Square Bars</a></li>
+                                        <li><a href="">Pipes</a></li>
+                                        <li><a href="">Tubes</a></li>
+                                        <li><a href="">Crane Rails</a></li>
+                                    </ul>
+                                </li>
                             </ul>
-                            <!-- End Sub -->
+                            <!-- End Sub Megamenu -->
                         </li>
-                        <!-- End Item With Sub -->
                         <!-- <li><a href="service.php">Services</a></li> -->
                         <li><a href="contact.php">Contact</a></li>
                     </ul>
@@ -162,6 +126,5 @@ session_start();
                 </div>
                 <!-- End Main Menu -->
             </div>
-
         </nav>
         <!-- End Navigation Panel -->
