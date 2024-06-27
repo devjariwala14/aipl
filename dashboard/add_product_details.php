@@ -22,7 +22,8 @@ if (isset($_COOKIE['view_id'])) {
 }
 
 if (isset($_REQUEST["save"])) {
-   $name = $_REQUEST["name"];
+   $pcategory = $_REQUEST["category"];
+   $pname = $_REQUEST["name"];
    $desc = $_REQUEST["desc"];
    $application = $_REQUEST["application"];
    $specification = $_REQUEST["specification"];
@@ -52,8 +53,8 @@ if (isset($_REQUEST["save"])) {
 
   try {
     // echo ("INSERT INTO `product_details`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
-    $stmt = $obj->con1->prepare("INSERT INTO `product_details`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("ssssssss", $name, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
+    $stmt = $obj->con1->prepare("INSERT INTO `product_details`(`cat_id`,`pro_id`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("iisssssss", $pcategoty,  $pname, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -77,7 +78,8 @@ if (isset($_REQUEST["save"])) {
 
 if (isset($_REQUEST["update"])) {
   $id = $_COOKIE['edit_id'];
-  $name = $_REQUEST["name"];
+  $pcategory = $_REQUEST["category"];
+  $pname = $_REQUEST["name"];
   $desc = $_REQUEST["desc"];
   $application = $_REQUEST["application"];
   $specification = $_REQUEST["specification"];
@@ -110,9 +112,9 @@ if (isset($_REQUEST["update"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("UPDATE `product_details` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
+    $stmt = $obj->con1->prepare("UPDATE `product_details` SET `cat_id`=?,`pro_id`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
 
-    $stmt->bind_param("ssssssssi", $name, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
+    $stmt->bind_param("iisssssssi", $pcategoty, $pname, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -155,64 +157,108 @@ if (isset($_REQUEST["update"])) {
                 <div class="card-body mt-3">
                     <!-- General Form Elements -->
                     <form method="post" enctype="multipart/form-data">
-                        <!-- Name -->
+                        <!-- Product Category -->
                         <div class="col-md-12">
-                            <label class="col-sm-2 col-form-label">Name</label>
-                            <input type="text" id="name" name="name" class="form-control" required
-                             value="<?= (isset($mode)) ? $data['name'] : '' ?>" <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
+                            <label for="menu" class="form-label">Product Category</label>
+                            <select id="inputMenu" class="form-select" name="category">
+                                <option selected>Choose Menu</option>
+                                <?php
+                                        $stmt_list = $obj->con1->prepare("SELECT * FROM `product_category` WHERE `status`= 'Enable'");
+                                        $stmt_list->execute();
+                                        $result = $stmt_list->get_result();
+                                        $stmt_list->close();
+                                        $i=1;
+                                        while($state=mysqli_fetch_array($result))
+                                        {
+                                    ?>
+                                <option value="<?php echo $state["id"]?>"
+                                    <?php echo isset($mode) && $data['cat_id'] == $state["id"] ? 'selected' : '' ?>>
+                                    <?php echo $state["category"]?></option>
+                                <?php 
+                                        }
+                                    ?>
+                            </select>
+                        </div>
+
+                        <!-- Product Name -->
+                        <div class="col-md-12">
+                            <label for="menu" class="form-label">Product Category</label>
+                            <select id="inputMenu" class="form-select" name="category">
+                                <option selected>Choose Menu</option>
+                                <?php
+                                        $stmt_list = $obj->con1->prepare("SELECT * FROM `product` WHERE `status`= 'Enable'");
+                                        $stmt_list->execute();
+                                        $result = $stmt_list->get_result();
+                                        $stmt_list->close();
+                                        $i=1;
+                                        while($state=mysqli_fetch_array($result))
+                                        {
+                                    ?>
+                                <option value="<?php echo $state["id"]?>"
+                                    <?php echo isset($mode) && $data['pro_id'] == $state["id"] ? 'selected' : '' ?>>
+                                    <?php echo $state["name"]?></option>
+                                <?php 
+                                        }
+                                    ?>
+                            </select>
                         </div>
 
                         <!-- Image -->
                         <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
-                                <input class="form-control" type="file" id="img_path" name="img_path"
-                                    onchange="readURL(this,'PreviewImage')" />
-                            </div>
-                            <div>
-                                <label class="font-bold text-primary mt-2  mb-3"
-                                    style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>">Preview</label>
-                                <img src="<?php echo (isset($mode)) ? 'images/product/' . $data["image"] : '' ?>"
-                                    name="PreviewImage" id="PreviewImage" height="300"
-                                    style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>"
-                                    class="object-cover shadow rounded">
-                                <div id="imgdiv" style="color:red"></div>
-                                <input type="hidden" name="old_img" id="old_img"
-                                    value="<?php echo (isset($mode) && $mode == 'edit') ? $data["image"] : '' ?>" />
-                            </div>
+                            <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
+                            <input class="form-control" type="file" id="img_path" name="img_path"
+                                onchange="readURL(this,'PreviewImage')" />
+                        </div>
+                        <div>
+                            <label class="font-bold text-primary mt-2  mb-3"
+                                style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>">Preview</label>
+                            <img src="<?php echo (isset($mode)) ? 'images/product/' . $data["image"] : '' ?>"
+                                name="PreviewImage" id="PreviewImage" height="300"
+                                style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>"
+                                class="object-cover shadow rounded">
+                            <div id="imgdiv" style="color:red"></div>
+                            <input type="hidden" name="old_img" id="old_img"
+                                value="<?php echo (isset($mode) && $mode == 'edit') ? $data["image"] : '' ?>" />
+                        </div>
 
-                       
-                        <!-- Description --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
+
+                        <!-- Description -->
+                        <!-- <input type="hidden" name="quill_content" id="quill_content"> -->
                         <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Description</label>
                             <textarea class="tinymce-editor" name="desc" id="desc"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['description'] : '' ?></textarea>
-                       </div>
-                       <!-- Application --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
-                       <div class="col-md-12">
+                        </div>
+                        <!-- Application -->
+                        <!-- <input type="hidden" name="quill_content" id="quill_content"> -->
+                        <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Application</label>
                             <textarea class="tinymce-editor" name="application" id="application"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['application'] : '' ?></textarea>
-                       </div>
-                       <!-- Specification --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
-                       <div class="col-md-12">
+                        </div>
+                        <!-- Specification -->
+                        <!-- <input type="hidden" name="quill_content" id="quill_content"> -->
+                        <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Specification</label>
                             <textarea class="tinymce-editor" name="specification" id="specification"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['specification'] : '' ?></textarea>
-                       </div>
-                       <!-- Chemical composition --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
-                       <div class="col-md-12">
+                        </div>
+                        <!-- Chemical composition -->
+                        <!-- <input type="hidden" name="quill_content" id="quill_content"> -->
+                        <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Chemical composition</label>
                             <textarea class="tinymce-editor" name="chemical_comp" id="chemical_comp"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['chemical_comp'] : '' ?></textarea>
-                       </div>
-                       <!--  Mechanical Propertiesd --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
-                       <div class="col-md-12">
+                        </div>
+                        <!--  Mechanical Propertiesd -->
+                        <!-- <input type="hidden" name="quill_content" id="quill_content"> -->
+                        <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Mechanical Properties</label>
                             <textarea class="tinymce-editor" name="mech_prop" id="mech_prop"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['mech_prop'] : '' ?></textarea>
-                       </div>
+                        </div>
 
-                       <div class="col-md-6 mt-2">
+                        <div class="col-md-6 mt-2">
                             <label for="inputEmail5" class="form-label">Status</label> <br />
                             <div class="form-check-inline">
                                 <input class="form-check-input" type="radio" name="radio" id="radio"
@@ -235,12 +281,14 @@ if (isset($_REQUEST["update"])) {
                         </div>
 
                         <div class="text-left mt-4">
-                <button type="submit" name="<?php echo isset($mode) && $mode == 'edit' ? 'update' : 'save' ?>" id="save"
-                    class="btn btn-success <?php echo isset($mode) && $mode == 'view' ? 'd-none' : '' ?>"><?php echo isset($mode) && $mode == 'edit' ? 'Update' : 'Save' ?>
-                </button>
-                <button type="button" class="btn btn-danger" onclick="window.location='product_details.php'">
-                    Close</button>
-            </div>
+                            <button type="submit"
+                                name="<?php echo isset($mode) && $mode == 'edit' ? 'update' : 'save' ?>" id="save"
+                                class="btn btn-success <?php echo isset($mode) && $mode == 'view' ? 'd-none' : '' ?>"><?php echo isset($mode) && $mode == 'edit' ? 'Update' : 'Save' ?>
+                            </button>
+                            <button type="button" class="btn btn-danger"
+                                onclick="window.location='product_details.php'">
+                                Close</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -252,6 +300,7 @@ if (isset($_REQUEST["update"])) {
         eraseCookie("view_id");
         window.location = "product_details.php";
     }
+
     function readURL(input, PreviewImage) {
         if (input.files && input.files[0]) {
             var filename = input.files.item(0).name;
