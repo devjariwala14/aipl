@@ -92,9 +92,9 @@ if (!isset($_SESSION["userlogin"])) {
 
       <div class="d-flex align-items-center justify-content-between">
         <a href="index.php" class="logo d-flex align-items-center">
-          <!-- <img src="assets/img/AIPL_Logo.png" alt=""> -->
+          <img src="assets/img/AIPL_Logo.png" alt="">
 
-          <span class="d-none d-lg-block">AIPL</span>
+         
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
       </div><!-- End Logo -->
