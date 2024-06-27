@@ -144,7 +144,7 @@ if (isset($_REQUEST["save"])) {
             </div>
 
             <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
-                <label for="inputNumber" class="col-sm-2 col-form-label  mt-4">Image</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
                 <input class="form-control" type="file" id="image" name="image" data_btn_text="Browse"
                     onchange="readURL(this,'PreviewImage')" />
             </div>
@@ -154,7 +154,7 @@ if (isset($_REQUEST["save"])) {
                     style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>">Preview</label>
                 <img src="<?php echo (isset($mode)) ? 'images/about/' . $data["image"] : '' ?>" name="PreviewImage"
                     id="PreviewImage" height="300" style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>"
-                    class="object-cover shadow rounded">
+                    class="object-cover shadow rounded mt-3 mb-3">
                 <div id="imgdiv" style="color:red"></div>
                 <input type="hidden" name="old_img" id="old_img"
                     value="<?php echo (isset($mode) && $mode == 'edit') ? $data["image"] : '' ?>" />

@@ -52,9 +52,9 @@ if (isset($_REQUEST["save"])) {
   }
 
   try {
-    // echo ("INSERT INTO `product_details`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
+    // echo ("INSERT INTO `product_details`(`cat_id`, `pro_id`,`image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES  ( ".$pcategory.", ". $pname.",  ".$PicFileName.", ".$desc." ,". $application." , ".$specification." , ".$chemical_comp." , ".$mech_prop.",".$status."");
     $stmt = $obj->con1->prepare("INSERT INTO `product_details`(`cat_id`,`pro_id`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("iisssssss", $pcategoty,  $pname, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
+    $stmt->bind_param("iisssssss", $pcategory,  $pname, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -114,7 +114,7 @@ if (isset($_REQUEST["update"])) {
   try {
     $stmt = $obj->con1->prepare("UPDATE `product_details` SET `cat_id`=?,`pro_id`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
 
-    $stmt->bind_param("iisssssssi", $pcategoty, $pname, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
+    $stmt->bind_param("iisssssssi", $pcategory,  $pname, $PicFileName , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception(
@@ -158,50 +158,51 @@ if (isset($_REQUEST["update"])) {
                     <!-- General Form Elements -->
                     <form method="post" enctype="multipart/form-data">
                         <!-- Product Category -->
+                    <div class="row pt-3">
                         <div class="col-md-12">
-                            <label for="menu" class="form-label">Product Category</label>
-                            <select id="inputMenu" class="form-select" name="category">
-                                <option selected>Choose Menu</option>
+                            <label for="category" class="col-sm-2 col-form-label">Product Category</label>
+                            <select class="form-select text-black" name="category" id="category" <?php echo isset($mode) && $mode=='view'?'disabled':'' ?> onchange="get_product_name(this.value)" required>
+                                <option value="">Select Product Category</option>
                                 <?php
-                                        $stmt_list = $obj->con1->prepare("SELECT * FROM `product_category` WHERE `status`= 'Enable'");
-                                        $stmt_list->execute();
-                                        $result = $stmt_list->get_result();
-                                        $stmt_list->close();
-                                        $i=1;
-                                        while($state=mysqli_fetch_array($result))
-                                        {
-                                    ?>
-                                <option value="<?php echo $state["id"]?>"
-                                    <?php echo isset($mode) && $data['cat_id'] == $state["id"] ? 'selected' : '' ?>>
-                                    <?php echo $state["category"]?></option>
-                                <?php 
-                                        }
-                                    ?>
+                                $stmt = $obj->con1->prepare("SELECT * FROM product_category where status='Enable'");
+                                $stmt->execute();
+                                $Resp = $stmt->get_result();
+                                $stmt->close();
+
+                                while ($result = mysqli_fetch_array($Resp)) {
+                                ?>
+                                    <option value="<?php echo $result["id"]; ?>" <?php echo (isset($mode) && $data["cat_id"]==$result["id"])?"selected":""; ?>>
+                                        <?php echo $result["category"]; ?>
+                                    </option>
+                                <?php
+                                }
+                                ?>
                             </select>
                         </div>
 
-                        <!-- Product Name -->
                         <div class="col-md-12">
-                            <label for="menu" class="form-label">Product Category</label>
-                            <select id="inputMenu" class="form-select" name="category">
-                                <option selected>Choose Menu</option>
+                            <label for="name" class="col-sm-2 col-form-label">Product Name</label>
+                            <select class="form-select text-black" name="name" id="name" <?php echo isset($mode) && $mode=='view'?'disabled':'' ?> required>
+                                <option value="">Select Product Name</option>
                                 <?php
-                                        $stmt_list = $obj->con1->prepare("SELECT * FROM `product` WHERE `status`= 'Enable'");
-                                        $stmt_list->execute();
-                                        $result = $stmt_list->get_result();
-                                        $stmt_list->close();
-                                        $i=1;
-                                        while($state=mysqli_fetch_array($result))
-                                        {
-                                    ?>
-                                <option value="<?php echo $state["id"]?>"
-                                    <?php echo isset($mode) && $data['pro_id'] == $state["id"] ? 'selected' : '' ?>>
-                                    <?php echo $state["name"]?></option>
-                                <?php 
-                                        }
-                                    ?>
+                                    if(isset($mode)){
+                                        $stmt = $obj->con1->prepare("SELECT * from product where cat_id=? AND status='Enable'");
+                                        $stmt->bind_param("i",$data["cat_id"]);
+                                        $stmt->execute();
+                                        $Resp = $stmt->get_result();
+                                        $stmt->close();
+
+                                        while ($result = mysqli_fetch_array($Resp)) {
+                                ?>
+                                    <option value="<?php echo $result["id"]; ?>" <?php echo (isset($mode) && $data["pro_id"]==$result["id"]) ? "selected":""; ?>>
+                                        <?php echo $result["name"]; ?>
+                                    </option>
+                                <?php
+                                    } }
+                                ?>
                             </select>
                         </div>
+                    </div>
 
                         <!-- Image -->
                         <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
@@ -215,7 +216,7 @@ if (isset($_REQUEST["update"])) {
                             <img src="<?php echo (isset($mode)) ? 'images/product/' . $data["image"] : '' ?>"
                                 name="PreviewImage" id="PreviewImage" height="300"
                                 style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>"
-                                class="object-cover shadow rounded">
+                                class="object-cover shadow rounded mt-3 mb-3 ">
                             <div id="imgdiv" style="color:red"></div>
                             <input type="hidden" name="old_img" id="old_img"
                                 value="<?php echo (isset($mode) && $mode == 'edit') ? $data["image"] : '' ?>" />
@@ -321,6 +322,23 @@ if (isset($_REQUEST["update"])) {
             }
         }
     }
+
+    function get_product_name(product_cat_id)
+  	{
+        if(product_cat_id!=""){
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "ajaxfile.php?action=get_product_name",
+                data: "product_cat_id="+product_cat_id,
+                cache: false,
+                success: function(result){
+                    $('#name').html('');
+                    $('#name').append(result);
+                }
+            });
+        }
+  	}
     </script>
     <?php
 include "footer.php";

@@ -101,30 +101,29 @@ if (isset($_COOKIE['edit_id'])) { $mode='edit' ; $editId=$_COOKIE['edit_id'];
                     <form class="row g-3 pt-3" method="post">
                         <div class="row pt-3">
 
-                            <div class="col-md-12">
-                                <label for="menu" class="form-label">Product Category</label>
-                                <select id="inputMenu" class="form-select" name="category">
-                                    <option selected>Choose Menu</option>
-                                    <?php
-                                        $stmt_list = $obj->con1->prepare("SELECT * FROM `product_category` WHERE `status`= 'Enable'");
-                                        $stmt_list->execute();
-                                        $result = $stmt_list->get_result();
-                                        $stmt_list->close();
-                                        $i=1;
-                                        while($state=mysqli_fetch_array($result))
-                                        {
-                                    ?>
-                                    <option value="<?php echo $state["id"]?>"
-                                        <?php echo isset($mode) && $data['cat_id'] == $state["id"] ? 'selected' : '' ?>>
-                                        <?php echo $state["category"]?></option>
-                                    <?php 
-                                        }
-                                    ?>
-                                </select>
-                            </div>
+                        <div class="col-md-12">
+                            <label for="category" class="col-sm-2 col-form-label">Product Category</label>
+                            <select class="form-select text-black" name="category" id="category" <?php echo isset($mode) && $mode=='view'?'disabled':'' ?> onchange="get_product_name(this.value)" required>
+                                <option value="">Select Product Category</option>
+                                <?php
+                                $stmt = $obj->con1->prepare("SELECT * FROM product_category where status='Enable'");
+                                $stmt->execute();
+                                $Resp = $stmt->get_result();
+                                $stmt->close();
+
+                                while ($result = mysqli_fetch_array($Resp)) {
+                                ?>
+                                    <option value="<?php echo $result["id"]; ?>" <?php echo (isset($mode) && $data["cat_id"]==$result["id"])?"selected":""; ?>>
+                                        <?php echo $result["category"]; ?>
+                                    </option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
 
                             <div class="col-md-12">
-                                <label for="pname" class="form-label">Product Name</label>
+                                <label for="pname" class="col-sm-2 col-form-label">Product Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="<?php echo (isset($mode)) ? $data['name'] : '' ?>"
                                     <?php echo isset($mode) && $mode == 'view' ? 'readonly' : '' ?>>
