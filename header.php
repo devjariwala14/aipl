@@ -106,6 +106,7 @@ session_start();
                         </li>
                         <!-- <li><a href="service.php">Services</a></li> -->
                         <li><a href="contact.php">Contact</a></li>
+                        <li><a href="service.php">Services</a></li>
                     </ul>
 
                     <ul class="items-end clearlist">

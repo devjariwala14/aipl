@@ -1,8 +1,9 @@
 <?php
 include "header.php";
 ?>
+
 <?php
-$stmt = $obj->con1->prepare("SELECT * FROM `product`ORDER BY `id` DESC");
+$stmt = $obj->con1->prepare("SELECT p.id, p.p_name, pd.image, pd.description, pd.application, pd.specification, pd.chemical_comp, pd.mech_prop FROM product p JOIN product_details pd ON p.id = pd.pro_id");
 $stmt->execute();
 $Resp = $stmt->get_result();
 $i = 1;
@@ -20,7 +21,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                         <div class="col-md-8 offset-md-2">
                             <h1 class="hs-title-1 mb-20">
                                 <span class="wow charsAnimIn" data-splitting="chars">
-                                    <?php echo $row["name"]; ?>
+                                    <?php echo $row["p_name"]; ?>
                                 </span>
                             </h1>
                         </div>
@@ -28,11 +29,9 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                     </div>
                 </div>
                 <!-- End Section Content -->
-
             </div>
         </section>
         <!-- End Header Section -->
-
 
         <!-- Section -->
         <section class="page-section">
@@ -46,8 +45,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
 
                                 <!-- Media Gallery -->
                                 <div class="blog-media mb-40 mb-xs-30">
-                                    <img src="dashboard/images/product/<?php echo $row["image"]; ?>"
-                                        alt="Image Description">
+                                    <img src="images/product/<?php echo $row["image"]; ?>" alt="Image Description">
                                 </div>
                             </div>
                             <p>
@@ -55,67 +53,90 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                             </p>
 
                             <!-- TABS -->
-                            <!-- Nav Tabs -->
-                            <div class="text-center mb-40 mb-xxs-30">
-                                <ul class="nav nav-tabs tpl-tabs animate" role="tablist">
-                                    <?php if (false) { ?>
-                                        <li class="nav-item" role="presentation">
-                                            <a href="#item-1" aria-controls="item-1" class="nav-link active"
-                                                data-bs-toggle="tab" role="tab" aria-selected="true">Applications</a>
-                                        </li>
-                                        <?php
-                                    } else {
+                            <?php
+                            $application = $row['application'];
+                            $specification = $row['specification'];
+                            $chemicalComp = $row['chemical_comp'];
+                            $mechProp = $row['mech_prop'];
 
-                                    } ?>
-                                    <li class="nav-item" role="presentation">
-                                        <a href="#item-2" aria-controls="item-2" class="nav-link" data-bs-toggle="tab"
-                                            role="tab" aria-selected="false">Specifications</a>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <a href="#item-3" aria-controls="item-3" class="nav-link" data-bs-toggle="tab"
-                                            role="tab" aria-selected="false">Chemical
-                                            Composition</a>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <a href="#item-4" aria-controls="item-4" class="nav-link" data-bs-toggle="tab"
-                                            role="tab" aria-selected="false">Mechanical
-                                            Properties</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- End Nav Tabs -->
+                            // Check if any of the columns contain data
+                            if (!empty($application) || !empty($specification) || !empty($chemicalComp) || !empty($mechProp)) {
+                                ?>
+                                <!-- Nav Tabs -->
+                                <div class="text-center mb-40 mb-xxs-30">
+                                    <ul class="nav nav-tabs tpl-tabs animate" role="tablist">
+                                        <?php if (!empty($application)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-2" aria-controls="item-<?php echo $i; ?>-2"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="false">Applications</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (!empty($specification)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-3" aria-controls="item-<?php echo $i; ?>-3"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="false">Specifications</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (!empty($chemicalComp)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-4" aria-controls="item-<?php echo $i; ?>-4"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab" aria-selected="false">Chemical
+                                                    Composition</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (!empty($mechProp)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-5" aria-controls="item-<?php echo $i; ?>-5"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="false">Mechanical Properties</a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                                <!-- End Nav Tabs -->
 
-                            <!-- Tab panes -->
-                            <div class="tab-content tpl-minimal-tabs-cont">
-                                <div class="tab-pane active show" id="item-1" role="tabpanel">
-                                    <div class="applications">
-                                        <?php echo $row["application"]; ?>
-                                    </div>
+                                <!-- Tab panes -->
+                                <div class="tab-content tpl-minimal-tabs-cont">
+                                    <?php if (!empty($application)) { ?>
+                                        <div id="item-<?php echo $i; ?>-2" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $application; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($specification)) { ?>
+                                        <div id="item-<?php echo $i; ?>-3" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $specification; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($chemicalComp)) { ?>
+                                        <div id="item-<?php echo $i; ?>-4" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $chemicalComp; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($mechProp)) { ?>
+                                        <div id="item-<?php echo $i; ?>-5" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $mechProp; ?></p>
+                                        </div>
+                                    <?php } ?>
                                 </div>
-                                <div class="tab-pane fade " id="item-2" role="tabpanel">
-                                    <?php echo $row["specification"]; ?>
-                                </div>
-                                <div class="tab-pane fade " id="item-3" role="tabpanel">
-                                    <?php echo $row["chemical_comp"]; ?>
-                                </div>
-                                <div class="tab-pane fade " id="item-4" role="tabpanel">
-                                    <?php echo $row["mech_prop"]; ?>
-                                </div>
-                            </div>
+                                <!-- End Tab panes -->
+                            <?php } ?>
+                            <!-- TABS OVER -->
                         </div>
-                        <!-- End Tab panes -->
-                        <!-- TABS OVER -->
                     </div>
-
+                    <!-- End Post -->
                 </div>
-                <!-- End Post -->
-            </div>
-
             </div>
         </section>
         <!-- End Section -->
     </main>
-<?php } ?>
+
+    <?php
+    $i++;
+    }
+?>
+
 <?php
 include "footer.php";
 ?>
