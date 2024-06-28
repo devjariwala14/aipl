@@ -186,6 +186,18 @@ if (!isset($_SESSION["userlogin"])) {
           <span>Services </span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="privacy_policy.php">
+          <i class="bi bi-file-lock"></i>
+          <span>Privacy Policy</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="terms_and_condition.php">
+          <i class="bi bi-file-earmark-lock"></i>
+          <span>Terms And Comdition </span>
+        </a>
+      </li>
 
 
       </ul>
