@@ -68,8 +68,8 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                                         <?php if (!empty($application)) { ?>
                                             <li class="nav-item" role="presentation">
                                                 <a href="#item-<?php echo $i; ?>-2" aria-controls="item-<?php echo $i; ?>-2"
-                                                    class="nav-link" data-bs-toggle="tab" role="tab"
-                                                    aria-selected="false">Applications</a>
+                                                    class="nav-link active" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="true">Applications</a>
                                             </li>
                                         <?php } ?>
                                         <?php if (!empty($specification)) { ?>
@@ -100,7 +100,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                                 <!-- Tab panes -->
                                 <div class="tab-content tpl-minimal-tabs-cont">
                                     <?php if (!empty($application)) { ?>
-                                        <div id="item-<?php echo $i; ?>-2" class="tab-pane fade" role="tabpanel">
+                                        <div id="item-<?php echo $i; ?>-2" class="tab-pane fade active show" role="tabpanel">
                                             <p><?php echo $application; ?></p>
                                         </div>
                                     <?php } ?>

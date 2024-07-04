@@ -94,7 +94,7 @@ if (!isset($_SESSION["userlogin"])) {
         <a href="index.php" class="logo d-flex align-items-center">
           <img src="assets/img/AIPL_Logo.png" alt="">
 
-         
+
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
       </div><!-- End Logo -->
@@ -104,11 +104,11 @@ if (!isset($_SESSION["userlogin"])) {
       <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li>
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link nav-icon search-bar-toggle " href="#">
+              <i class="bi bi-search"></i>
+            </a>
+          </li>
 
           <li class="nav-item dropdown pe-3">
 
@@ -168,36 +168,36 @@ if (!isset($_SESSION["userlogin"])) {
             <span>About Us</span>
           </a>
         </li>
-        <li class="nav-item">
+        < class="nav-item">
           <a class="nav-link collapsed" href="primary_benifits.php">
             <i class="bi bi-question-lg"></i>
             <span>Primary Benifits</span>
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="contact_us.php">
-            <i class="bi bi-telephone"></i>
-            <span>Contact Us</span>
-          </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="services.php">
-          <i class="bi bi-filter-left"></i>
-          <span>Services </span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="privacy_policy.php">
-          <i class="bi bi-file-lock"></i>
-          <span>Privacy Policy</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="terms_and_condition.php">
-          <i class="bi bi-file-earmark-lock"></i>
-          <span>Terms And Comdition </span>
-        </a>
-      </li>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="services.php">
+              <i class="bi bi-filter-left"></i>
+              <span>Services </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="contact_us.php">
+              <i class="bi bi-telephone"></i>
+              <span>Contact Us</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="privacy_policy.php">
+              <i class="bi bi-file-lock"></i>
+              <span>Privacy Policy</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="terms_and_condition.php">
+              <i class="bi bi-file-earmark-lock"></i>
+              <span>Terms And Comdition </span>
+            </a>
+          </li>
 
 
       </ul>
