@@ -98,16 +98,6 @@
                                     <a href="#item-2" aria-controls="item-2" class="nav-link" data-bs-toggle="tab"
                                         role="tab" aria-selected="false">Specifications</a>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <a href="#item-3" aria-controls="item-3" class="nav-link" data-bs-toggle="tab"
-                                        role="tab" aria-selected="false">Chemical
-                                        Composition</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a href="#item-4" aria-controls="item-4" class="nav-link" data-bs-toggle="tab"
-                                        role="tab" aria-selected="false">Mechanical
-                                        Properties</a>
-                                </li>
                             </ul>
                         </div>
                         <!-- End Nav Tabs -->
@@ -210,10 +200,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane fade " id="item-3" role="tabpanel">
-                            </div>
-                            <div class="tab-pane fade " id="item-4" role="tabpanel">
-                            </div>
+
                         </div>
                     </div>
                     <!-- End Tab panes -->
@@ -228,4 +215,4 @@
     </section>
     <!-- End Section -->
 </main>
-<? include "footer.php"; ?>
+<?php include "footer.php"; ?>
