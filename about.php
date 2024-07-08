@@ -50,12 +50,12 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                 </div>
             </div>
 
-            <div class="page-section pt-0">
+            <div class="page-section">
                 <div class="container">
 
-                    <div class="mt-n120 mt-sm-n60 overflow-hidden">
-                        <img src="dashboard/images/product/<?php echo $row["image"]; ?>" alt="Image Description"
-                            class="wow scaleOutIn" data-wow-duration="1.2s" data-wow-offset="0">
+                    <div class=" mt-sm-n60 overflow-hidden text-center">
+                        <img src="dashboard/images/about/<?php echo $row["image"]; ?>" alt="Image Description"
+                            class="wow scaleOutIn " data-wow-duration="1.2s" data-wow-offset="0">
                     </div>
 
                 </div>
@@ -82,16 +82,17 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
 
                 </div>
                 <!-- End Text -->
-                <div class="col-md-4 col-lg-3 d-flex align-items-stretch mb-sm-30">
-                    <?php
-                    $stmt_list = $obj->con1->prepare("SELECT * FROM `primary_benifits` ORDER BY `id` DESC;");
-                    $stmt_list->execute();
-                    $result = $stmt_list->get_result();
-                    $stmt_list->close();
-                    $i = 1;
-                    while ($row = mysqli_fetch_array($result)) {
-                        ?>
-                        <!-- Feature Item -->
+                <!-- Feature Item -->
+                <?php
+                $stmt_list = $obj->con1->prepare("SELECT * FROM `primary_benifits` ORDER BY `id` DESC;");
+                $stmt_list->execute();
+                $result = $stmt_list->get_result();
+                $stmt_list->close();
+                $i = 1;
+                while ($row = mysqli_fetch_array($result)) {
+                    ?>
+                    <div class="col-md-4 col-lg-3 d-flex align-items-stretch mb-sm-30">
+
 
                         <div class="alt-features-item border-left mt-0">
                             <div class="alt-features-icon">
@@ -101,11 +102,12 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                             <div class="alt-features-descr"><?php echo $row["content"] ?></div>
                         </div>
                         <!-- End Feature Item -->
-                        <?php
-                        $i++;
-                        }
-                    ?>
-                </div>
+
+                    </div>
+                    <?php
+                    $i++;
+                    }
+                ?>
 
 
 

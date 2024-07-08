@@ -2,7 +2,6 @@
 include "header.php";
 include "alert.php";
 
-
 if (isset($_REQUEST["btndelete"])) {
     $p_id = $_REQUEST['delete_id'];
 
@@ -35,28 +34,28 @@ if (isset($_REQUEST["btndelete"])) {
     }
 ?>
 <script type="text/javascript">
-function add_data() {
-    eraseCookie("edit_id");
-    eraseCookie("view_id");
-    window.location = "add_product_details.php";
-}
+    function add_data() {
+        eraseCookie("edit_id");
+        eraseCookie("view_id");
+        window.location = "add_product_details.php";
+    }
 
-function editdata(id) {
-    eraseCookie("view_id");
-    createCookie("edit_id", id, 1);
-    window.location = "add_product_details.php";
-}
+    function editdata(id) {
+        eraseCookie("view_id");
+        createCookie("edit_id", id, 1);
+        window.location = "add_product_details.php";
+    }
 
-function viewdata(id) {
-    eraseCookie("edit_id");
-    createCookie("view_id", id, 1);
-    window.location = "add_product_details.php";
-}
+    function viewdata(id) {
+        eraseCookie("edit_id");
+        createCookie("view_id", id, 1);
+        window.location = "add_product_details.php";
+    }
 
-function deletedata(id) {
-    $('#deleteModal').modal('toggle');
-    $('#delete_id').val(id);
-}
+    function deletedata(id) {
+        $('#deleteModal').modal('toggle');
+        $('#delete_id').val(id);
+    }
 </script>
 
 <div class="modal fade" id="deleteModal" tabindex="-1">
@@ -113,35 +112,35 @@ function deletedata(id) {
                             </thead>
                             <tbody>
                                 <?php
-                                $stmt = $obj->con1->prepare("SELECT pd.*, p.name, pc.category FROM product_details pd JOIN product p ON pd.pro_id = p.id JOIN product_category pc ON pd.cat_id = pc.id ORDER BY pd.id DESC;");
+                                $stmt = $obj->con1->prepare("SELECT pd.*, p.p_name, pc.category FROM product_details pd JOIN product p ON pd.pro_id = p.id JOIN product_category pc ON pd.cat_id = pc.id ORDER BY pd.id DESC;");
                                 $stmt->execute();
                                 $Resp = $stmt->get_result();
                                 $i = 1;
                                 while ($row = mysqli_fetch_array($Resp)) { ?>
-                                <tr>
-                                    <th scope="row"><?php echo $i ?></th>
-                                    <td><?php echo $row["category"]; ?></td>
-                                    <td><?php echo $row["name"]; ?></td>
-                                    <td>
-                                        <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
-                                            class="object-fit-cover shadow rounded">
-                                    </td>
-                                    <td>
-                                        <h4><span
-                                                class="badge rounded-pill bg-<?php echo ($row['status']=='Enable')?'success':'danger'?>"><?php echo $row["status"]; ?></span>
-                                        </h4>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
-                                                class="bx bx-show-alt bx-sm me-2"></i></a>
-                                        <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
-                                                class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
-                                        <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
-                                                class="bx bx-trash bx-sm text-danger"></i></a>
-                                    </td>
-                                    </td>
-                                </tr>
-                                <?php $i++;
+                                    <tr>
+                                        <th scope="row"><?php echo $i ?></th>
+                                        <td><?php echo $row["category"]; ?></td>
+                                        <td><?php echo $row["p_name"]; ?></td>
+                                        <td>
+                                            <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
+                                                class="object-fit-cover shadow rounded">
+                                        </td>
+                                        <td>
+                                            <h4><span
+                                                    class="badge rounded-pill bg-<?php echo ($row['status'] == 'Enable') ? 'success' : 'danger' ?>"><?php echo $row["status"]; ?></span>
+                                            </h4>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
+                                                    class="bx bx-show-alt bx-sm me-2"></i></a>
+                                            <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
+                                                    class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
+                                            <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
+                                                    class="bx bx-trash bx-sm text-danger"></i></a>
+                                        </td>
+                                        </td>
+                                    </tr>
+                                    <?php $i++;
                                     }
                                 ?>
                             </tbody>

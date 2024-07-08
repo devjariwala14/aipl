@@ -102,7 +102,7 @@ if (isset($_REQUEST["btndelete"])) {
                         </thead>
                         <tbody>
                             <?php
-                            $stmt = $obj->con1->prepare("SELECT p1.*, p2.category FROM product p1 JOIN product_category p2 ON p1.cat_id = p2.id ORDER BY p1.id DESC;");
+                            $stmt = $obj->con1->prepare("SELECT p1.*, p2.category FROM product p1 JOIN product_category p2 ON p1.category = p2.id  ORDER BY p1.id DESC;");
                             $stmt->execute();
                             $Resp = $stmt->get_result();
                             $i = 1;
@@ -110,7 +110,7 @@ if (isset($_REQUEST["btndelete"])) {
                                 <tr>
                                     <th scope="row"><?php echo $i; ?></th>
                                     <td><?php echo $row["category"] ?></td>
-                                    <td><?php echo $row["name"] ?></td>
+                                    <td><?php echo $row["p_name"] ?></td>
                                     <td>
                                         <h4><span
                                                 class="badge rounded-pill bg-<?php echo ($row['status'] == 'Enable') ? 'success' : 'danger' ?>"><?php echo $row["status"]; ?></span>

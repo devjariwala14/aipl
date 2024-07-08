@@ -1,132 +1,144 @@
 <?php
-include "db_connect.php";
-$obj = new DB_Connect();
-date_default_timezone_set('Asia/Kolkata');
-session_start();
-
-$category_id = isset($_GET['category_id']) ? intval($_GET['category_id']) : 1;
-
-// Fetch subcategories based on category_id
-$stmt = $obj->con1->prepare("SELECT * FROM subcategories WHERE category_id = ?");
-$stmt->bind_param("i", $category_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$subcategories = [];
-while ($row = $result->fetch_assoc()) {
-    $subcategories[] = $row;
-    }
-
-// Function to get products by subcategory ID
-function getProductsBySubcategoryId($subcategory_id)
-    {
-    $pdo = new PDO('mysql:host=your_host;dbname=your_db', 'username', 'password');
-    $stmt = $pdo->prepare('SELECT * FROM products WHERE subcategory_id = :subcategory_id');
-    $stmt->execute(['subcategory_id' => $subcategory_id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-// Fetch products if subcategory_id is set in the URL
-$products = [];
-if (isset($_GET['subcategory_id'])) {
-    $subcategory_id = intval($_GET['subcategory_id']);
-    $products = getProductsBySubcategoryId($subcategory_id);
-    }
-
-include 'header.php';
+include "header.php";
 ?>
-<main id="main">
-    <section class="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
-        style="background-image: url(images/full-width-images/section-bg-1.jpg)" id="home">
-        <div class="container position-relative pt-30 pt-sm-50">
-            <div class="text-center">
-                <div class="row">
-                    <div class="col-md-8 offset-md-2">
-                        <h1 class="hs-title-1 mb-20">
-                            <span class="wow charsAnimIn" data-splitting="chars">Products</span>
-                        </h1>
+
+<?php
+$p_id = 1;
+$stmt = $obj->con1->prepare("SELECT p.id, p.p_name, pd.image, pd.description, pd.application, pd.specification, pd.chemical_comp, pd.mech_prop FROM product p JOIN product_details pd ON p.id = pd.pro_id WHERE p.id = ?");
+$stmt->bind_param("i", $p_id);
+$stmt->execute();
+$Resp = $stmt->get_result();
+$i = 1;
+while ($row = mysqli_fetch_array($Resp)) { ?>
+
+    <main id="main">
+        <!-- Header Section -->
+        <section class="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
+            style="background-image: url(images/full-width-images/section-bg-1.jpg)" id="home">
+            <div class="container position-relative pt-30 pt-sm-50">
+                <!-- Section Content -->
+                <div class="text-center">
+                    <div class="row">
+                        <!-- Page Title -->
+                        <div class="col-md-8 offset-md-2">
+                            <h1 class="hs-title-1 mb-20">
+                                <span class="wow charsAnimIn" data-splitting="chars">
+                                    <?php echo $row["p_name"]; ?>
+                                </span>
+                            </h1>
+                        </div>
+                        <!-- End Page Title -->
                     </div>
                 </div>
+                <!-- End Section Content -->
             </div>
-        </div>
-    </section>
-    <section class="page-section">
-        <div class="container relative">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <?php if (!empty($products)): ?>
-                        <?php foreach ($products as $product): ?>
-                            <div class="blog-item">
-                                <div class="blog-item-body">
-                                    <div class="blog-media mb-40 mb-xs-30">
-                                        <img src="dashboard/images/product/<?php echo htmlspecialchars($product['image']); ?>"
-                                            alt="Image Description">
-                                    </div>
-                                    <h2><?php echo htmlspecialchars($product['name']); ?></h2>
-                                    <p><?php echo htmlspecialchars($product['description']); ?></p>
-                                    <ul class="nav nav-tabs tpl-tabs animate" role="tablist">
-                                        <?php if (!empty($product['application'])): ?>
-                                            <li class="nav-item" role="presentation">
-                                                <a href="#application-<?php echo $product['id']; ?>" class="nav-link"
-                                                    data-bs-toggle="tab" role="tab">Applications</a>
-                                            </li>
-                                        <?php endif; ?>
-                                        <?php if (!empty($product['specification'])): ?>
-                                            <li class="nav-item" role="presentation">
-                                                <a href="#specification-<?php echo $product['id']; ?>" class="nav-link"
-                                                    data-bs-toggle="tab" role="tab">Specifications</a>
-                                            </li>
-                                        <?php endif; ?>
-                                        <?php if (!empty($product['chemical_comp'])): ?>
-                                            <li class="nav-item" role="presentation">
-                                                <a href="#chemical-<?php echo $product['id']; ?>" class="nav-link"
-                                                    data-bs-toggle="tab" role="tab">Chemical Composition</a>
-                                            </li>
-                                        <?php endif; ?>
+        </section>
+        <!-- End Header Section -->
 
-                                        <?php if (!empty($product['mech_prop'])): ?>
-                                            <li class="nav-item" role="presentation">
-                                                <a href="#mechanical-<?php echo $product['id']; ?>" class="nav-link"
-                                                    data-bs-toggle="tab" role="tab">Mechanical Properties</a>
-                                            </li>
-                                        <?php endif; ?>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <?php if (!empty($product['application'])): ?>
-                                            <div id="application-<?php echo $product['id']; ?>" class="tab-pane fade"
-                                                role="tabpanel">
-                                                <p><?php echo htmlspecialchars($product['application']); ?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if (!empty($product['specification'])): ?>
-                                            <div id="specification-<?php echo $product['id']; ?>" class="tab-pane fade"
-                                                role="tabpanel">
-                                                <p><?php echo htmlspecialchars($product['specification']); ?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if (!empty($product['chemical_comp'])): ?>
-                                            <div id="chemical-<?php echo $product['id']; ?>" class="tab-pane fade" role="tabpanel">
-                                                <p><?php echo htmlspecialchars($product['chemical_comp']); ?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if (!empty($product['mech_prop'])): ?>
-                                            <div id="mechanical-<?php echo $product['id']; ?>" class="tab-pane fade"
-                                                role="tabpanel">
-                                                <p><?php echo htmlspecialchars($product['mech_prop']); ?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
+        <!-- Section -->
+        <section class="page-section">
+            <div class="container relative">
+                <div class="row justify-content-center">
+                    <!-- Content -->
+                    <div class="col-lg-12">
+                        <!-- Post -->
+                        <div class="blog-item">
+                            <div class="blog-item-body">
+
+                                <!-- Media Gallery -->
+                                <div class="blog-media mb-40 mb-xs-30">
+                                    <img src="images/product/<?php echo $row["image"]; ?>" alt="Image Description">
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No products found for this subcategory.</p>
-                    <?php endif; ?>
+                            <p>
+                                <?php echo $row["description"]; ?>
+                            </p>
+
+                            <!-- TABS -->
+                            <?php
+                            $application = $row['application'];
+                            $specification = $row['specification'];
+                            $chemicalComp = $row['chemical_comp'];
+                            $mechProp = $row['mech_prop'];
+
+                            // Check if any of the columns contain data
+                            if (!empty($application) || !empty($specification) || !empty($chemicalComp) || !empty($mechProp)) {
+                                ?>
+                                <!-- Nav Tabs -->
+                                <div class="text-center mb-40 mb-xxs-30">
+                                    <ul class="nav nav-tabs tpl-tabs animate" role="tablist">
+                                        <?php if (!empty($application)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-2" aria-controls="item-<?php echo $i; ?>-2"
+                                                    class="nav-link active" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="true">Applications</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (!empty($specification)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-3" aria-controls="item-<?php echo $i; ?>-3"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="false">Specifications</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (!empty($chemicalComp)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-4" aria-controls="item-<?php echo $i; ?>-4"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab" aria-selected="false">Chemical
+                                                    Composition</a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (!empty($mechProp)) { ?>
+                                            <li class="nav-item" role="presentation">
+                                                <a href="#item-<?php echo $i; ?>-5" aria-controls="item-<?php echo $i; ?>-5"
+                                                    class="nav-link" data-bs-toggle="tab" role="tab"
+                                                    aria-selected="false">Mechanical Properties</a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                                <!-- End Nav Tabs -->
+
+                                <!-- Tab panes -->
+                                <div class="tab-content tpl-minimal-tabs-cont">
+                                    <?php if (!empty($application)) { ?>
+                                        <div id="item-<?php echo $i; ?>-2" class="tab-pane fade active show" role="tabpanel">
+                                            <p><?php echo $application; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($specification)) { ?>
+                                        <div id="item-<?php echo $i; ?>-3" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $specification; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($chemicalComp)) { ?>
+                                        <div id="item-<?php echo $i; ?>-4" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $chemicalComp; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($mechProp)) { ?>
+                                        <div id="item-<?php echo $i; ?>-5" class="tab-pane fade" role="tabpanel">
+                                            <p><?php echo $mechProp; ?></p>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <!-- End Tab panes -->
+                            <?php } ?>
+                            <!-- TABS OVER -->
+                        </div>
+                    </div>
+                    <!-- End Post -->
                 </div>
             </div>
-        </div>
-    </section>
-</main>
-<?php include 'footer.php'; ?>
-</body>
+        </section>
+        <!-- End Section -->
+    </main>
 
-</html>
+    <?php
+    $i++;
+    }
+?>
+
+<?php
+include "footer.php";
+?>

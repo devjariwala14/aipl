@@ -168,36 +168,36 @@ if (!isset($_SESSION["userlogin"])) {
             <span>About Us</span>
           </a>
         </li>
-        < class="nav-item">
+        <li class="nav-item">
           <a class="nav-link collapsed" href="primary_benifits.php">
             <i class="bi bi-question-lg"></i>
             <span>Primary Benifits</span>
           </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link collapsed" href="services.php">
-              <i class="bi bi-filter-left"></i>
-              <span>Services </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link collapsed" href="contact_us.php">
-              <i class="bi bi-telephone"></i>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link collapsed" href="privacy_policy.php">
-              <i class="bi bi-file-lock"></i>
-              <span>Privacy Policy</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link collapsed" href="terms_and_condition.php">
-              <i class="bi bi-file-earmark-lock"></i>
-              <span>Terms And Comdition </span>
-            </a>
-          </li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="services.php">
+            <i class="bi bi-filter-left"></i>
+            <span>Services </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="contact_us.php">
+            <i class="bi bi-telephone"></i>
+            <span>Contact Us</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="privacy_policy.php">
+            <i class="bi bi-file-lock"></i>
+            <span>Privacy Policy</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="terms_and_condition.php">
+            <i class="bi bi-file-earmark-lock"></i>
+            <span>Terms And Comdition </span>
+          </a>
+        </li>
 
 
       </ul>
