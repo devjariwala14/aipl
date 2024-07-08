@@ -92,7 +92,7 @@ session_start();
                                             <li><a href="product.php">Alloy Steel Plate</a></li>
                                             <li><a href="htsp.php">High Tensile Steel Plates</a></li>
                                             <li><a href="product.php">Wear Resistant Steel Plates</a></li>
-                                            <li><a href="product.php">Mild Steel Plates </a></li>
+                                            <li><a href="msp.php">Mild Steel Plates </a></li>
                                             <li><a href="product.php">Boiler Quality Plates</a></li>
                                             <li><a href="product.php">Chequered Steel Plates</a></li>
                                             <li><a href="product.php">Carbon Steel Plate</a></li>
