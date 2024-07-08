@@ -143,22 +143,9 @@ if (!isset($_SESSION["userlogin"])) {
     <aside id="sidebar" class="sidebar">
 
       <ul class="sidebar-nav" id="sidebar-nav">
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="product_category.php">
-            <i class="bi bi-cart3"></i>
-            <span>Product Category</span>
-          </a>
-        </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="product.php">
             <i class="bi bi-bag"></i>
-            <span>Product</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="product_details.php">
-            <i class="bi bi-file-text"></i>
             <span>Product Details</span>
           </a>
         </li>
