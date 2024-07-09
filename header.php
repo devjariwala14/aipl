@@ -75,18 +75,34 @@ session_start();
                             <ul class="mn-sub mn-has-multi">
                                 <li class="mn-sub-multi">
                                     <span class="mn-group-title">Steel Plates & Coils</span>
+                                    <?php
+                                    // $product_id = 1;
+                                    // $stmt = $obj->con1->prepare("SELECT pc1.* , p1.* FROM product_category pc1, product p1 WHERE pc1.id = p1.category AND pc1.id = ?");
+                                    // $stmt->bind_param("i", $product_id);
+                                    // $stmt->execute();
+                                    // $result = $stmt->get_result();
+                                    ?>
                                     <ul>
-                                        <li><a href="product.php?id=1">Alloy Steel Plate</a></li>
-                                        <li><a href="product.php?id=2">High Tensile Steel Plates</a></li>
-                                        <li><a href="product.php?id=3">Wear Resistant Steel Plates</a></li>
-                                        <li><a href="product.php?id=4">Mild Steel Plates</a></li>
-                                        <li><a href="product.php?id=5">Boiler Quality Plates</a></li>
-                                        <li><a href="product.php?id=6">Chequered Steel Plates</a></li>
-                                        <li><a href="product.php?id=7">Carbon Steel Plate</a></li>
-                                        <li><a href="product.php?id=8">Mild Carbon Steel</a></li>
-                                        <li><a href="product.php?id=9">Hot Rolled Coil</a></li>
-                                        <li><a href="product.php?id=10">PPGI Coils</a></li>
-
+                                        <!-- <?php
+                                        // $i = 1;
+                                        // while ($row = $result->fetch_assoc()) { ?>
+                                            <li><a href="product.php"
+                                                    onclick="javascript:redirect('<?= $row['id']; ?>')"><?php echo $row['p_name']; ?></a>
+                                            </li> -->
+                                            <li><a href="asps.php">Alloy Steel Plate</a></li>
+                                            <li><a href="htsp.php">High Tensile Steel Plates</a></li>
+                                            <li><a href="wrsp.php">Wear Resistant Steel Plates</a></li>
+                                            <li><a href="msp.php">Mild Steel Plates </a></li>
+                                            <li><a href="#">Boiler Quality Plates</a></li>
+                                            <li><a href="#">Chequered Steel Plates</a></li>
+                                            <li><a href="#">Carbon Steel Plate</a></li>
+                                            <li><a href="#">Mild Carbon Steel</a></li>
+                                            <li><a href="#">Hot Rolled Coil</a></li>
+                                            <li><a href="#">PPGI Coils</a></li>
+                                            <!-- <?php
+                                            // $i++;
+                                            // }
+                                        ?> -->
                                     </ul>
                                 </li>
                                 <li class="mn-sub-multi">
