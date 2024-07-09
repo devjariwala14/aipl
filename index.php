@@ -15,10 +15,10 @@ include "header.php";
                     <!-- Home Section Text -->
                     <div class="col-md-6 d-flex align-items-center mb-sm-60">
                         <div>
-                            <h2 class="section-caption text-color mb-30 mb-xs-10 wow fadeInUp" data-wow-duration="1.2s">
-                                AIPL</h2>
+                            <h2 class=" text-color mb-30 mb-xs-10 wow fadeInUp" data-wow-duration="1.2s">
+                                Abhishek Ispat Pvt. Ltd.</h2>
                             <h1 class="hs-title-1 mb-30"><span class="wow charsAnimIn" data-splitting="chars">Building a
-                                    Stronger Future Together</span>
+                                     Stronger Future Together</span>
                             </h1>
                             <p class="section-descr mb-50 wow fadeInUp" data-wow-delay="0.6s" data-wow-duration="1.2s">
                                 Join us in constructing the infrastructure of tomorrow with our superior
@@ -26,16 +26,7 @@ include "header.php";
                                 products.
                             </p>
 
-                            <div class="local-scroll mt-n10 wow fadeInUp wch-unset" data-wow-delay="0.7s"
-                                data-wow-duration="1.2s" data-wow-offset="0">
-                                <a href="contact.php"
-                                    class="btn btn-mod btn-large btn-round btn-hover-anim align-middle me-2 me-sm-5 mt-10"><span>Discover
-                                        now</span></a>
-                                <a href="https://www.youtube.com/watch?v=jTea_8Fk5Ns"
-                                    class="link-hover-anim align-middle lightbox mfp-iframe mt-10"
-                                    data-link-animate="y"><i class="icon-play size-13 me-1"></i> How it
-                                    works?</a>
-                            </div>
+                            
 
                         </div>
                     </div>
@@ -149,14 +140,14 @@ include "header.php";
 
                     <div class="col-lg-6 col-xl-5 offset-xl-1">
                         <h4 class="h5">Our Mission</h4>
-                        <p class="text-gray">
-                            <?php echo $row["vision"] ?>
-
-                        </p>
-                        <h4 class="h5">Our Vision</h4>
-                        <p class="text-gray">
+                        <div class="text-gray text-justify">
                             <?php echo $row["mission"] ?>
-                        </p>
+
+                </div>
+                        <h4 class="h5">Our Vision</h4>
+                        <div class="text-gray text-justify">
+                            <?php echo $row["vision"] ?>
+                        </div>
                     </div>
                 <?php } ?>
 
@@ -182,10 +173,7 @@ include "header.php";
                         We provide the effective ideas that grow businesses of our clients.
                     </p>
 
-                    <div class="local-scroll wow fadeInUp" data-wow-delay="0.2s">
-                        <a href="contact.php" class="btn btn-mod btn-w btn-large btn-round btn-hover-anim"><span>Request
-                                Price</span></a>
-                    </div>
+                    
 
                 </div>
 
