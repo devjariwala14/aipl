@@ -1,5 +1,6 @@
 <?php
 include "header.php";
+
 if (isset($_COOKIE['edit_id'])) {
   $mode = 'edit';
   $editId = $_COOKIE['edit_id'];
@@ -9,6 +10,7 @@ if (isset($_COOKIE['edit_id'])) {
   $data = $stmt->get_result()->fetch_assoc();
   $stmt->close();
 }
+
 if (isset($_COOKIE['view_id'])) {
   $mode = 'view';
   $viewId = $_COOKIE['view_id'];
@@ -18,24 +20,25 @@ if (isset($_COOKIE['view_id'])) {
   $data = $stmt->get_result()->fetch_assoc();
   $stmt->close();
 }
+
 if (isset($_REQUEST["save"])) {
-   $name = $_REQUEST["name"];
-   $desc = $_REQUEST["desc"];
-   $application = $_REQUEST["application"];
-   $specification = $_REQUEST["specification"];
-   $chemical_comp = $_REQUEST["chemical_comp"];
-   $mech_prop = $_REQUEST["mech_prop"];
-   $status = $_REQUEST["radio"];
+  $name = $_REQUEST["name"];
+  $desc = $_REQUEST["desc"];
+  $application = $_REQUEST["application"];
+  $specification = $_REQUEST["specification"];
+  $chemical_comp = $_REQUEST["chemical_comp"];
+  $mech_prop = $_REQUEST["mech_prop"];
 
   $img_path = $_FILES['img_path']['name'];
   $img_path = str_replace(' ', '_', $img_path);
-
   $temp_img_path = $_FILES['img_path']['tmp_name'];
+
   if ($img_path != "") {
     if (file_exists("images/product/" . $img_path)) {
       $i = 0;
       $PicFileName = $img_path;
       $Arr1 = explode('.', $PicFileName);
+
       $PicFileName = $Arr1[0] . $i . "." . $Arr1[1];
       while (file_exists("images/product/" . $PicFileName)) {
         $i++;
@@ -47,19 +50,17 @@ if (isset($_REQUEST["save"])) {
   }
 
   try {
-    // echo ("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES  $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop");
-    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("ssssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
+    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES (?,?,?,?,?,?,?)");
+    $stmt->bind_param("sssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop);
     $Resp = $stmt->execute();
     if (!$Resp) {
-      throw new Exception(
-        "Problem in adding! " . strtok($obj->con1->error, "(")
-      );
+      throw new Exception("Problem in adding! " . strtok($obj->con1->error, "("));
     }
     $stmt->close();
   } catch (\Exception $e) {
     setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
   }
+
   if ($Resp) {
     move_uploaded_file($temp_img_path, "images/product/" . $PicFileName);
     setcookie("msg", "data", time() + 3600, "/");
@@ -69,6 +70,7 @@ if (isset($_REQUEST["save"])) {
     header("location:product.php");
   }
 }
+
 if (isset($_REQUEST["update"])) {
   $id = $_COOKIE['edit_id'];
   $name = $_REQUEST["name"];
@@ -77,14 +79,17 @@ if (isset($_REQUEST["update"])) {
   $specification = $_REQUEST["specification"];
   $chemical_comp = $_REQUEST["chemical_comp"];
   $mech_prop = $_REQUEST["mech_prop"];
-  $status = $_REQUEST["radio"];
+
+  $img_path = isset($_FILES['img_path']['name']) ? $_FILES['img_path']['name'] : '';
+  $temp_img_path = isset($_FILES['img_path']['tmp_name']) ? $_FILES['img_path']['tmp_name'] : '';
+  $old_img = isset($_REQUEST['old_img']) ? $_REQUEST['old_img'] : '';
 
   if ($img_path != "") {
     if (file_exists("images/product/" . $img_path)) {
-
       $i = 0;
       $PicFileName = $img_path;
       $Arr1 = explode('.', $PicFileName);
+
       $PicFileName = $Arr1[0] . $i . "." . $Arr1[1];
       while (file_exists("images/product/" . $PicFileName)) {
         $i++;
@@ -93,7 +98,9 @@ if (isset($_REQUEST["update"])) {
     } else {
       $PicFileName = $img_path;
     }
-    unlink("images/product/" . $old_img);
+    if ($old_img != '') {
+      unlink("images/product/" . $old_img);
+    }
     move_uploaded_file($temp_img_path, "images/product/" . $PicFileName);
   } else {
     $PicFileName = $old_img;
@@ -101,28 +108,22 @@ if (isset($_REQUEST["update"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
-    $stmt->bind_param("ssssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
+    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=? WHERE `id`=?");
+    $stmt->bind_param("sssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop , $id);
     $Resp = $stmt->execute();
     if (!$Resp) {
-      throw new Exception(  
-        "Problem in updating! " . strtok($obj->con1->error, "(")
-      );
+      throw new Exception("Problem in updating! " . strtok($obj->con1->error, "("));
     }
     $stmt->close();
   } catch (\Exception $e) {
     setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
   }
-  if ($Resp) {
-    setcookie("edit_id", "", time() - 3600, "/");
-    setcookie("msg", "update", time() + 3600, "/");
-    header("location:product.php");
-  } else {
-    setcookie("msg", "fail", time() + 3600, "/");
-    header("location:product.php");
-  }
 }
 ?>
+
+
+
+
 <div class="pagetitle">
     <h1>Products</h1>
     <nav>
@@ -148,6 +149,7 @@ if (isset($_REQUEST["update"])) {
                             <input type="text" id="name" name="name" class="form-control" required
                              value="<?= (isset($mode)) ? $data['name'] : '' ?>" <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
                         </div>
+
                         <!-- Image -->
                         <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
                                 <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
@@ -165,7 +167,8 @@ if (isset($_REQUEST["update"])) {
                                 <input type="hidden" name="old_img" id="old_img"
                                     value="<?php echo (isset($mode) && $mode == 'edit') ? $data["image"] : '' ?>" />
                             </div>
-                       
+
+
                         <!-- Description --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
                         <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Description</label>
@@ -196,27 +199,7 @@ if (isset($_REQUEST["update"])) {
                             <textarea class="tinymce-editor" name="mech_prop" id="mech_prop"
                                 <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['mech_prop'] : '' ?></textarea>
                        </div>
-                       <div class="col-md-6 mt-2">
-                            <label for="inputEmail5" class="form-label">Status</label> <br />
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio" id="radio"
-                                    <?php echo isset($mode) && $data['status'] == 'Enable' ? 'checked' : '' ?>
-                                    class="form-radio text-primary" value="Enable" checked required
-                                    <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> />
-                                <label class="form-check-label" for="gridRadios1">
-                                    Enable
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio" id="radio"
-                                    <?php echo isset($mode) && $data['status'] == 'Disable' ? 'checked' : '' ?>
-                                    class="form-radio text-danger" value="Disable" required
-                                    <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> />
-                                <label class="form-check-label" for="gridRadios2">
-                                    Disable
-                                </label>
-                            </div>
-                        </div>
+
                         <div class="text-left mt-4">
                 <button type="submit" name="<?php echo isset($mode) && $mode == 'edit' ? 'update' : 'save' ?>" id="save"
                     class="btn btn-success <?php echo isset($mode) && $mode == 'view' ? 'd-none' : '' ?>"><?php echo isset($mode) && $mode == 'edit' ? 'Update' : 'Save' ?>
@@ -240,6 +223,7 @@ if (isset($_REQUEST["update"])) {
             var filename = input.files.item(0).name;
             var reader = new FileReader();
             var extn = filename.split(".");
+
             if (["jpg", "jpeg", "png", "bmp"].includes(extn[1].toLowerCase())) {
                 reader.onload = function(e) {
                     document.getElementById(PreviewImage).src = e.target.result;
