@@ -89,16 +89,16 @@ session_start();
                                             <li><a href="product.php"
                                                     onclick="javascript:redirect('<?= $row['id']; ?>')"><?php echo $row['p_name']; ?></a>
                                             </li> -->
-                                            <li><a href="product.php">Alloy Steel Plate</a></li>
+                                            <li><a href="asps.php">Alloy Steel Plate</a></li>
                                             <li><a href="htsp.php">High Tensile Steel Plates</a></li>
-                                            <li><a href="product.php">Wear Resistant Steel Plates</a></li>
+                                            <li><a href="wrsp.php">Wear Resistant Steel Plates</a></li>
                                             <li><a href="msp.php">Mild Steel Plates </a></li>
-                                            <li><a href="product.php">Boiler Quality Plates</a></li>
-                                            <li><a href="product.php">Chequered Steel Plates</a></li>
-                                            <li><a href="product.php">Carbon Steel Plate</a></li>
-                                            <li><a href="product.php">Mild Carbon Steel</a></li>
-                                            <li><a href="product.php">Hot Rolled Coil</a></li>
-                                            <li><a href="product.php">PPGI Coils</a></li>
+                                            <li><a href="#">Boiler Quality Plates</a></li>
+                                            <li><a href="#">Chequered Steel Plates</a></li>
+                                            <li><a href="#">Carbon Steel Plate</a></li>
+                                            <li><a href="#">Mild Carbon Steel</a></li>
+                                            <li><a href="#">Hot Rolled Coil</a></li>
+                                            <li><a href="#">PPGI Coils</a></li>
                                             <!-- <?php
                                             // $i++;
                                             // }
