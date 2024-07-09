@@ -1,16 +1,22 @@
 <?php
 include "header.php";
-?>
 
-<?php
-$p_id = 1;
-$stmt = $obj->con1->prepare("SELECT p.id, p.p_name, pd.image, pd.description, pd.application, pd.specification, pd.chemical_comp, pd.mech_prop FROM product p JOIN product_details pd ON p.id = pd.pro_id WHERE p.id = ?");
-$stmt->bind_param("i", $p_id);
+// Check if id is set
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// Prepare the SQL query based on the id
+if ($id) {
+    $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE `id` = ? ORDER BY `id` DESC");
+    $stmt->bind_param("i", $id);
+    } else {
+    $stmt = $obj->con1->prepare("SELECT * FROM `product` ORDER BY `id` DESC");
+    }
+
 $stmt->execute();
 $Resp = $stmt->get_result();
 $i = 1;
-while ($row = mysqli_fetch_array($Resp)) { ?>
-
+while ($row = mysqli_fetch_array($Resp)) {
+    ?>
     <main id="main">
         <!-- Header Section -->
         <section class="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
@@ -23,7 +29,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                         <div class="col-md-8 offset-md-2">
                             <h1 class="hs-title-1 mb-20">
                                 <span class="wow charsAnimIn" data-splitting="chars">
-                                    <?php echo $row["p_name"]; ?>
+                                    <?php echo $row["name"]; ?>
                                 </span>
                             </h1>
                         </div>
@@ -44,7 +50,6 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                         <!-- Post -->
                         <div class="blog-item">
                             <div class="blog-item-body">
-
                                 <!-- Media Gallery -->
                                 <div class="blog-media mb-40 mb-xs-30">
                                     <img src="images/product/<?php echo $row["image"]; ?>" alt="Image Description">

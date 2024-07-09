@@ -146,13 +146,3 @@ session_start();
             </div>
         </nav>
         <!-- End Navigation Panel -->
-
-
-        <script>
-            function redirect(id) {
-                alert(id);
-                SESSION["p_id"] = id;
-                alert(SESSION["p_id"]);
-                windows.redirect("product.php");
-            }
-        </script>
