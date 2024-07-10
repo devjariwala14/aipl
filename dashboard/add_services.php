@@ -26,6 +26,7 @@ if (isset($_REQUEST['update'])) {
     $name = $_REQUEST['name'];
     $title = $_REQUEST['title'];
     $description = $_REQUEST['description'];
+    $status=$_REQUEST["radio"];
     $image = $_FILES['image']['name'];
     $image = str_replace(' ', '_', $image);
     $a_image_path = $_FILES['image']['tmp_name'];
@@ -55,8 +56,8 @@ if (isset($_REQUEST['update'])) {
         }
 
     try {
-        $stmt = $obj->con1->prepare("UPDATE `services` SET `service_name`=?,`title`=?, `image`=?, `description`=? WHERE `id`=?");
-        $stmt->bind_param("ssssi", $name, $title, $PicFileName, $description, $id);
+        $stmt = $obj->con1->prepare("UPDATE `services` SET `service_name`=?,`title`=?,`image`=?,`description`=?,`status`=? WHERE `id`=?");
+        $stmt->bind_param("sssssi", $name, $title, $PicFileName, $description,$status, $id);
         $Resp = $stmt->execute();
         $stmt->close();
         if (!$Resp) {
@@ -84,6 +85,7 @@ if (isset($_REQUEST["save"])) {
     $a_image_path = $_FILES['image']['tmp_name'];
     $title = $_REQUEST['title'];
     $description = $_REQUEST['description'];
+    $status=$_REQUEST["radio"];
 
     if ($image != "") {
         if (file_exists("images/services/" . $image)) {
@@ -103,8 +105,8 @@ if (isset($_REQUEST["save"])) {
 
     try {
         // echo"INSERT INTO `services`( `name`, `image`, `title`, `description`) VALUES ($name, $PicFileName, $title,$description)";
-        $stmt = $obj->con1->prepare("INSERT INTO `services`( `service_name`, `image`, `title`, `description`) VALUES (?,?,?,?)");
-        $stmt->bind_param("ssss", $name, $PicFileName, $title, $description);
+        $stmt = $obj->con1->prepare("INSERT INTO `services`( `service_name`, `image`, `title`, `description`,`status`) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("sssss", $name, $PicFileName, $title, $description,$status);
         $Resp = $stmt->execute();
         if (!$Resp) {
             throw new Exception(
@@ -139,7 +141,8 @@ if (isset($_REQUEST["save"])) {
             <div class="col-md-12">
                 <label class="col-sm-2 col-form-label">Services Name</label>
                 <input type="text" id="name" name="name" class="form-control" required
-                    value="<?= (isset($mode)) ? $data['service_name'] : '' ?>" <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
+                    value="<?= (isset($mode)) ? $data['service_name'] : '' ?>"
+                    <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
             </div>
 
             <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
@@ -162,12 +165,31 @@ if (isset($_REQUEST["save"])) {
             <div class="col-md-12">
                 <label class="col-sm-2 col-form-label">Title</label>
                 <input type="text" id="title" name="title" class="form-control" required
-                    value="<?= (isset($mode)) ? $data['title'] : '' ?>" <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
+                    value="<?= (isset($mode)) ? $data['title'] : '' ?>"
+                    <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
             </div>
 
             <div class="col-md-12">
                 <label for="discription" class="col-sm-2 col-form-label">Description</label>
-                <textarea class="tinymce-editor" name="description" id="description" <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['description'] : '' ?></textarea>
+                <textarea class="tinymce-editor" name="description" id="description"
+                    <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?>><?php echo (isset($mode)) ? $data['description'] : '' ?></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="inputEmail5" class="form-label">Status</label> <br />
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" name="radio" id="radio"
+                        <?php echo isset($mode) && $data['status'] == 'Enable' ? 'checked' :'' ?>
+                        class="form-radio text-primary" value="Enable" checked required
+                        <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> />
+                    <label class="form-check-label" for="gridRadios1">Enable</label>
+                </div>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" name="radio" id="radio"
+                        <?php echo isset($mode) && $data['status'] == 'Disable' ? 'checked' : '' ?>
+                        class="form-radio text-danger" value="Disable" required
+                        <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> />
+                    <label class="form-check-label" for="gridRadios2">Disable</label>
+                </div>
             </div>
 
             <div class="text-left mt-4">
@@ -184,35 +206,35 @@ if (isset($_REQUEST["save"])) {
 </div>
 </section>
 <script>
-    function go_back() {
-        eraseCookie("edit_id");
-        eraseCookie("view_id");
-        window.location = "services.php";
-    }
+function go_back() {
+    eraseCookie("edit_id");
+    eraseCookie("view_id");
+    window.location = "services.php";
+}
 
-    function readURL(input, preview) {
-        if (input.files && input.files[0]) {
-            var filename = input.files.item(0).name;
+function readURL(input, preview) {
+    if (input.files && input.files[0]) {
+        var filename = input.files.item(0).name;
 
-            var reader = new FileReader();
-            var extn = filename.split(".");
+        var reader = new FileReader();
+        var extn = filename.split(".");
 
-            if (extn[1].toLowerCase() == "jpg" || extn[1].toLowerCase() == "jpeg" || extn[1].toLowerCase() == "png" || extn[
+        if (extn[1].toLowerCase() == "jpg" || extn[1].toLowerCase() == "jpeg" || extn[1].toLowerCase() == "png" || extn[
                 1].toLowerCase() == "bmp") {
-                reader.onload = function (e) {
-                    $('#' + preview).attr('src', e.target.result);
-                    document.getElementById(preview).style.display = "block";
-                };
+            reader.onload = function(e) {
+                $('#' + preview).attr('src', e.target.result);
+                document.getElementById(preview).style.display = "block";
+            };
 
-                reader.readAsDataURL(input.files[0]);
-                $('#imgdiv').html("");
-                document.getElementById('save').disabled = false;
-            } else {
-                $('#imgdiv').html("Please Select Image Only");
-                document.getElementById('save').disabled = true;
-            }
+            reader.readAsDataURL(input.files[0]);
+            $('#imgdiv').html("");
+            document.getElementById('save').disabled = false;
+        } else {
+            $('#imgdiv').html("Please Select Image Only");
+            document.getElementById('save').disabled = true;
         }
     }
+}
 </script>
 <?php
 include "footer.php";
