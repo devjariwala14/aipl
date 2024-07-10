@@ -111,6 +111,8 @@ if (isset($_REQUEST["update"])) {
     $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=? WHERE `id`=?");
     $stmt->bind_param("sssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop , $id);
     $Resp = $stmt->execute();
+
+
     if (!$Resp) {
       throw new Exception("Problem in updating! " . strtok($obj->con1->error, "("));
     }
@@ -118,6 +120,7 @@ if (isset($_REQUEST["update"])) {
   } catch (\Exception $e) {
     setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
   }
+    
 }
 ?>
 
