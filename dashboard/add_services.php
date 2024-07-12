@@ -104,7 +104,9 @@ if (isset($_REQUEST["save"])) {
         }
 
     try {
-        // echo"INSERT INTO `services`( `name`, `image`, `title`, `description`) VALUES ($name, $PicFileName, $title,$description)";
+        // echo"INSERT INTO `services`( `name`, `image`, `title`, `description`,`status`) VALUES (".$name.", ".$PicFileName.", ".$title.",".$description.",".$status.")";
+        
+
         $stmt = $obj->con1->prepare("INSERT INTO `services`( `service_name`, `image`, `title`, `description`,`status`) VALUES (?,?,?,?,?)");
         $stmt->bind_param("sssss", $name, $PicFileName, $title, $description,$status);
         $Resp = $stmt->execute();
@@ -115,9 +117,11 @@ if (isset($_REQUEST["save"])) {
             }
         $stmt->close();
         } catch (\Exception $e) {
+    
         setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
         }
 
+        // echo $Resp;
     if ($Resp) {
         move_uploaded_file($a_image_path, "images/services/" . $PicFileName);
         setcookie("msg", "data", time() + 3600, "/");
