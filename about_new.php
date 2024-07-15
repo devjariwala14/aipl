@@ -22,7 +22,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                         <div class="col-md-8 offset-md-2">
 
                             <h2 class="section-caption-border mb-30 mb-xs-20 wow fadeInUp" data-wow-duration="1.2s">
-                                We are design studio
+                                Steel manufacturers
                             </h2>
 
                             <h1 class="hs-title-1 mb-40">
@@ -38,7 +38,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                                         <i class="mi-check"></i>
                                     </div>
                                     <div class="features-list-text">
-                                        Based in London
+                                        Based in India
                                     </div>
                                 </div>
                                 <!-- End Features List Item -->
@@ -49,18 +49,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                                         <i class="mi-check"></i>
                                     </div>
                                     <div class="features-list-text">
-                                        Established in 2010
-                                    </div>
-                                </div>
-                                <!-- End Features List Item -->
-
-                                <!-- Features List Item -->
-                                <div class="d-inline-flex mt-10 mx-3">
-                                    <div class="features-list-icon">
-                                        <i class="mi-check"></i>
-                                    </div>
-                                    <div class="features-list-text">
-                                        200+ Projects Done
+                                        Established in 1997
                                     </div>
                                 </div>
                                 <!-- End Features List Item -->
@@ -90,13 +79,13 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                     <div class="col-sm-5 mb-xs-50">
                         <div class="call-action-4-images">
                             <div class="call-action-4-image-1">
-                                <img src="images/demo-strong/section-image-1.jpg" alt="Image description"
-                                    class="wow scaleOutIn" data-wow-duration="1.2s" />
+                                <img src="images/about-1" alt="Image description" class="wow scaleOutIn"
+                                    data-wow-duration="1.2s" />
                             </div>
                             <div class="call-action-4-image-2" data-rellax-y data-rellax-speed="0.7"
                                 data-rellax-percentage="0.25">
-                                <img src="images/demo-strong/section-image-2.jpg" alt="Image description"
-                                    class="wow scaleOutIn" data-wow-duration="1.2s" data-wow-offset="0" />
+                                <img src="images/about-3" alt="Image description" class="wow scaleOutIn"
+                                    data-wow-duration="1.2s" data-wow-offset="0" />
                             </div>
                         </div>
                     </div>
@@ -340,8 +329,8 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                             The power of design help us to solve complex problems and cultivate business solutions.
                         </p>
                         <div class="local-scroll">
-                            <a href="main-pages-contact-1.html"
-                                class="btn btn-mod btn-large btn-round btn-hover-anim"><span>Contact us</span></a>
+                            <a href="contact.php" class="btn btn-mod btn-large btn-round btn-hover-anim"><span>Contact
+                                    us</span></a>
                         </div>
                     </div>
                 </div>

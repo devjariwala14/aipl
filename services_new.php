@@ -38,14 +38,15 @@ include "header.php";
                 <div class="row mb-100 mb-md-60">
 
                     <div class="col-lg-8 mb-md-50">
-                        <div class="section-descr-extralarge wow linesAnimIn" data-wow-offset="0" data-splitting="lines">
-                            <h2 class="section-title-inline-1"><?php echo $row["title"] ?></h2>
+                        <div class="section-descr-small wow linesAnimIn" data-wow-offset="0" data-splitting="lines">
+                            <h2 class="section-title-inline-4"><?php echo $row["title"] ?></h2>
                             <?php echo $row["description"] ?>
                         </div>
                     </div>
 
                     <div class="col-lg-4 wow fadeInUp" data-offset="0">
-                        <img class="img-fluid" src="dashboard/images/services/<?php echo $row["image"]; ?>" alt="Image Description">
+                        <img src="dashboard/images/services/<?php echo $row["image"]; ?>" alt="Image Description"
+                            height="600px" width="750px">
                     </div>
 
                 </div>
