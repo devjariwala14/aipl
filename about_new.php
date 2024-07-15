@@ -26,8 +26,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                             </h2>
 
                             <h1 class="hs-title-1 mb-40">
-                                <span class="wow charsAnimIn"
-                                    data-splitting="chars"><?php echo $row["description"] ?></span>
+                                <span class="wow charsAnimIn" data-splitting="chars"><?php echo $row["title"] ?></span>
                             </h1>
 
                             <!-- Feature List -->

@@ -5,8 +5,8 @@ include "header.php";
 <main id="main">
 
     <!-- Home Section -->
-    <section class="home-section bg-gray-light-1 bg-light-alpha-90 parallax-5 parallax-mousemove-scene"
-        style="background-image: url(images/full-width-images/section-bg-1.jpg)" id="home">
+    <section class="page-section bg-dark-1 bg-dark-alpha-80 light-content parallax-5"
+        style="background-image: url(images/home)" id="home">
         <div class="container min-height-100vh d-flex align-items-center pt-100 pb-100 pt-sm-120 pb-sm-120">
             <!-- Home Section Content -->
             <div class="home-content text-start">
@@ -18,7 +18,7 @@ include "header.php";
                             <h2 class=" text-color mb-30 mb-xs-10 wow fadeInUp" data-wow-duration="1.2s">
                                 Abhishek Ispat Pvt. Ltd.</h2>
                             <h1 class="hs-title-1 mb-30"><span class="wow charsAnimIn" data-splitting="chars">Building a
-                                     Stronger Future Together</span>
+                                    Stronger Future Together</span>
                             </h1>
                             <p class="section-descr mb-50 wow fadeInUp" data-wow-delay="0.6s" data-wow-duration="1.2s">
                                 Join us in constructing the infrastructure of tomorrow with our superior
@@ -26,7 +26,7 @@ include "header.php";
                                 products.
                             </p>
 
-                            
+
 
                         </div>
                     </div>
@@ -143,7 +143,7 @@ include "header.php";
                         <div class="text-gray text-justify">
                             <?php echo $row["mission"] ?>
 
-                </div>
+                        </div>
                         <h4 class="h5">Our Vision</h4>
                         <div class="text-gray text-justify">
                             <?php echo $row["vision"] ?>
@@ -173,7 +173,7 @@ include "header.php";
                         We provide the effective ideas that grow businesses of our clients.
                     </p>
 
-                    
+
 
                 </div>
 

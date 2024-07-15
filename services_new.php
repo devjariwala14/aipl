@@ -5,14 +5,15 @@ include "header.php";
 
 <main id="main">
     <!-- Home Section -->
-    <section class="page-section pt-90 pb-90 pb-xs-40 bg-dark-alpha-50 parallax-5 light-content"
-        style="background-image: url(images/demo-modern/section-bg-4.jpg)" id="home">
+    <section class="page-section bg-dark-1 bg-dark-alpha-80 light-content parallax-5"
+        style="background-image: url(images/AIPL/2.jpg)" id="home">
         <div class="container position-relative">
             <span class="col-10 col-sm-9"><br><br><br></span>
             <div class="row">
-                <div class="col-10 col-sm-9">
-                    <h1 class="hs-title-5 font-alt overflow-hidden mb-0">
-                        <span class="d-block text-end wow fadeRotateIn">
+                <!-- <div class="col-10 col-sm-9"> -->
+                <div class="col">
+                    <h1 class="hs-title-4 font-alt overflow-hidden mb-0">
+                        <span class="d-block text-center wow fadeRotateIn">
                             Services
                         </span>
                     </h1>
@@ -44,8 +45,7 @@ include "header.php";
                     </div>
 
                     <div class="col-lg-4 wow fadeInUp" data-offset="0">
-                        <img src="dashboard/images/services/<?php echo $row["image"]; ?>" alt="Image Description"
-                            sizes="auto">
+                        <img class="img-fluid" src="dashboard/images/services/<?php echo $row["image"]; ?>" alt="Image Description">
                     </div>
 
                 </div>
