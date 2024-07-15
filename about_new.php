@@ -11,7 +11,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
 
         <!-- Header Section -->
         <section class="page-section bg-dark-1 bg-dark-alpha-80 light-content parallax-5"
-            style="background-image: url(dashboard/images/about/about-2.png)">
+            style="background-image: url(dashboard/images/about/<?php echo $row['image']; ?>)">
             <div class="container position-relative pt-50">
 
                 <!-- Section Content -->

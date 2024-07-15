@@ -28,6 +28,7 @@ if (isset($_REQUEST["save"])) {
   $specification = $_REQUEST["specification"];
   $chemical_comp = $_REQUEST["chemical_comp"];
   $mech_prop = $_REQUEST["mech_prop"];
+  $status = $_REQUEST["status"];
 
   $img_path = $_FILES['img_path']['name'];
   $img_path = str_replace(' ', '_', $img_path);
@@ -50,8 +51,8 @@ if (isset($_REQUEST["save"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`) VALUES (?,?,?,?,?,?,?)");
-    $stmt->bind_param("sssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop);
+    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`,`status`) VALUES (?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("ssssssss", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status);
     $Resp = $stmt->execute();
     if (!$Resp) {
       throw new Exception("Problem in adding! " . strtok($obj->con1->error, "("));
@@ -79,6 +80,7 @@ if (isset($_REQUEST["update"])) {
   $specification = $_REQUEST["specification"];
   $chemical_comp = $_REQUEST["chemical_comp"];
   $mech_prop = $_REQUEST["mech_prop"];
+  $status = $_REQUEST["status"];
 
   $img_path = isset($_FILES['img_path']['name']) ? $_FILES['img_path']['name'] : '';
   $temp_img_path = isset($_FILES['img_path']['tmp_name']) ? $_FILES['img_path']['tmp_name'] : '';
@@ -108,8 +110,8 @@ if (isset($_REQUEST["update"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=? WHERE `id`=?");
-    $stmt->bind_param("sssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop , $id);
+    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?,`image`=?,`description`=?,`application`=?,`specification`=?,`chemical_comp`=?,`mech_prop`=?,`status`=? WHERE `id`=?");
+    $stmt->bind_param("ssssssssi", $name, $img_path , $desc , $application , $specification , $chemical_comp , $mech_prop,$status , $id);
     $Resp = $stmt->execute();
 
 
@@ -119,6 +121,15 @@ if (isset($_REQUEST["update"])) {
     $stmt->close();
   } catch (\Exception $e) {
     setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
+  }
+
+  if ($Resp) {
+    // move_uploaded_file($temp_img_path, "images/product/" . $PicFileName);
+    setcookie("msg", "data", time() + 3600, "/");
+    header("location:product.php");
+  } else {
+    setcookie("msg", "fail", time() + 3600, "/");
+    header("location:product.php");
   }
     
 }
@@ -171,7 +182,17 @@ if (isset($_REQUEST["update"])) {
                                     value="<?php echo (isset($mode) && $mode == 'edit') ? $data["image"] : '' ?>" />
                             </div>
 
-
+                            <div class="mb-3">
+						<label class="form-label d-block" for="basic-default-fullname">Status</label>
+						<div class="form-check form-check-inline mt-3">
+							<input class="form-check-input" type="radio" name="status" id="Enable" value="Enable" <?php echo isset($mode) && $data['status'] == 'Enable' ? 'checked' : '' ?> <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> required checked>
+							<label class="form-check-label" for="inlineRadio1">Enable</label>
+						</div>
+						<div class="form-check form-check-inline mt-3">
+							<input class="form-check-input" type="radio" name="status" id="Disable" value="Disable" <?php echo isset($mode) && $data['status'] == 'Disable' ? 'checked' : '' ?> <?php echo isset($mode) && $mode == 'view' ? 'disabled' : '' ?> required>
+							<label class="form-check-label" for="inlineRadio1">Disable</label>
+						</div>
+</div>
                         <!-- Description --><!-- <input type="hidden" name="quill_content" id="quill_content"> -->
                         <div class="col-md-12">
                             <label for="discription" class="col-sm-2 col-form-label">Description</label>

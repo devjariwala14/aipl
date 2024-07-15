@@ -13,7 +13,7 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
         <section class="page-section pt-0 pb-0" id="home">
 
             <div class="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
-                style="background-image: url(images/full-width-images/section-bg-1.jpg)">
+                style="background-image: url(dashboard/images/about/<?php echo $row['image']; ?>)">
                 <div class="container position-relative pt-50 pb-100 pb-sm-20">
 
                     <!-- Section Content -->

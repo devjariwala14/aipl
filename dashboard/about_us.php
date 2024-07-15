@@ -15,24 +15,24 @@ if (isset($_REQUEST["btndelete"])) {
 
         if (file_exists("images/about/" . $Resp_subimg["image"])) {
             unlink("images/about/" . $Resp_subimg["image"]);
-        }
+            }
 
         $stmt_del = $obj->con1->prepare("DELETE FROM `about_us` WHERE id=?");
         $stmt_del->bind_param("i", $a_id);
         $Resp = $stmt_del->execute();
         if (!$Resp) {
             throw new Exception("Problem in deleting! " . strtok($obj->con1->error, '('));
-        }
+            }
         $stmt_del->close();
-    } catch (\Exception $e) {
+        } catch (\Exception $e) {
         setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
-    }
+        }
 
     if ($Resp) {
         setcookie("msg", "data_del", time() + 3600, "/");
-    }
+        }
     header("location:about_us.php");
-}
+    }
 ?>
 <script type="text/javascript">
     function add_data() {
@@ -128,11 +128,11 @@ if (isset($_REQUEST["btndelete"])) {
                                         $extn = strtolower(pathinfo($row["image"], PATHINFO_EXTENSION));
                                         if (in_array($extn, $img_array)) {
                                             ?>
-                                            <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
+                                            <img src="images/about/<?php echo $row["image"]; ?>" width="200" height="200"
                                                 style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
                                                 class="object-fit-cover shadow rounded">
                                             <?php
-                                        } ?>
+                                            } ?>
                                     </td>
                                     <td>
                                         <a href="javascript:viewdata('<?php echo $row["id"] ?>')"><i
@@ -145,7 +145,7 @@ if (isset($_REQUEST["btndelete"])) {
 
                                 </tr>
                                 <?php $i++;
-                            }
+                                }
                             ?>
                         </tbody>
                     </table>

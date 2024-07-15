@@ -100,6 +100,7 @@ if (isset($_REQUEST["btndelete"])) {
                                     <th scope="col">Sr.no</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Image</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -126,13 +127,18 @@ if (isset($_REQUEST["btndelete"])) {
                                                 } ?>
                                         </td>
                                         <td>
+                                            <h4><span
+                                                    class="badge rounded-pill bg-<?php echo ($row['status'] == 'Enable') ? 'success' : 'danger' ?>"><?php echo $row["status"]; ?></span>
+                                            </h4>
+                                        </td>
+
+                                        <td>
                                             <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
                                                     class="bx bx-show-alt bx-sm me-2"></i></a>
                                             <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
                                                     class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
                                             <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
                                                     class="bx bx-trash bx-sm text-danger"></i></a>
-                                        </td>
                                         </td>
                                     </tr>
                                     <?php $i++;
