@@ -79,12 +79,12 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                     <div class="col-sm-5 mb-xs-50">
                         <div class="call-action-4-images">
                             <div class="call-action-4-image-1">
-                                <img src="images/about-1" alt="Image description" class="wow scaleOutIn"
+                                <img src="images/about-1.png" alt="Image description" class="wow scaleOutIn"
                                     data-wow-duration="1.2s" />
                             </div>
                             <div class="call-action-4-image-2" data-rellax-y data-rellax-speed="0.7"
                                 data-rellax-percentage="0.25">
-                                <img src="images/about-3" alt="Image description" class="wow scaleOutIn"
+                                <img src="images/about-3.png" alt="Image description" class="wow scaleOutIn"
                                     data-wow-duration="1.2s" data-wow-offset="0" />
                             </div>
                         </div>
