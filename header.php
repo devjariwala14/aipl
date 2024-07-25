@@ -65,6 +65,10 @@ session_start();
                 createCookie("pro_id", pid, 1);
                 window.location = "product.php";
             }
+            function redirect_services(id) {
+                createCookie("id", id, 1);
+                window.location = "services_new.php";
+            }
         </script>
     </head>
 
@@ -103,8 +107,6 @@ session_start();
                     <ul class="clearlist local-scroll">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="about_new.php">About</a></li>
-                        <li><a href="services_new.php">Services</a></li>
-                        <!-- Item With Sub -->
                         <li>
                             <a href="#" class="mn-has-sub">Trading <i class="mi-chevron-down"></i></a>
 
@@ -156,6 +158,45 @@ session_start();
                             </ul>
                             <!-- End Sub Megamenu -->
 
+                        </li>
+                        <!-- Item With Sub -->
+                        <li>
+                            <a href="#" class="mn-has-sub">Services <i class="mi-chevron-down"></i></a>
+                            <!-- Sub Megamenu -->
+                            <ul class="mn-sub mn-has-multi">
+                                <li class="mn-sub-multi">
+                                    <ul>
+                                        <?php
+                                        $stmt = $obj->con1->prepare("SELECT * FROM `services` where LOWER(status)='enable'");
+                                        $stmt->execute();
+                                        $prod_res = $stmt->get_result();
+                                        $stmt->close();
+                                        $num_prod = $prod_res->num_rows;
+                                        $i = 1;
+                                        while ($services = mysqli_fetch_array($prod_res)) {
+                                            ?>
+                                            <li>
+                                                <a href="javascript:redirect_services(<?php echo $services["id"] ?>)">
+                                                    <?php echo $services["service_name"] ?></a>
+                                            </li>
+                                            <?php
+                                            if ($i == ($num_prod / 2)) {
+                                                ?>
+                                            </ul>
+                                        </li>
+                                        <li class="mn-sub-multi">
+                                            <ul>
+
+                                                <?php
+
+                                                }
+                                            $i++;
+                                            }
+                                        ?>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- End Sub Megamenu -->
                         </li>
 
                         <li><a href="contact.php">Contact</a></li>

@@ -6,7 +6,7 @@ include "header.php";
 
     <!-- Home Section -->
     <section class="page-section bg-dark-1 bg-dark-alpha-80 light-content parallax-5"
-        style="background-image: url(images/home)" id="home">
+        style="background-image: url(images/home.jpeg)" id="home">
         <div class="container min-height-100vh d-flex align-items-center pt-100 pb-100 pt-sm-120 pb-sm-120">
             <!-- Home Section Content -->
             <div class="home-content text-start">
