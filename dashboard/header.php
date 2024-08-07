@@ -144,6 +144,12 @@ if (!isset($_SESSION["userlogin"])) {
 
       <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
+          <a class="nav-link collapsed" href="admin.php">
+            <i class="bi bi-person"></i>
+            <span>Admin </span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link collapsed" href="product.php">
             <i class="bi bi-bag"></i>
             <span>Product Details</span>
@@ -156,9 +162,9 @@ if (!isset($_SESSION["userlogin"])) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="primary_benifits.php">
+          <a class="nav-link collapsed" href="primary_benefits.php">
             <i class="bi bi-question-lg"></i>
-            <span>Primary Benifits</span>
+            <span>Primary Benefits</span>
           </a>
         </li>
         <li class="nav-item">
@@ -182,9 +188,10 @@ if (!isset($_SESSION["userlogin"])) {
         <li class="nav-item">
           <a class="nav-link collapsed" href="terms_and_condition.php">
             <i class="bi bi-file-earmark-lock"></i>
-            <span>Terms And Comdition </span>
+            <span>Terms And Condition </span>
           </a>
         </li>
+
 
 
       </ul>

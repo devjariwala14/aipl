@@ -19,10 +19,6 @@ $Resp = $stmt->get_result();
 $i = 1;
 while ($row = mysqli_fetch_array($Resp)) {
     ?>
-
-
-
-
     <main id="main">
         <!-- Home Section -->
         <section class="page-section bg-dark-1 bg-dark-alpha-80 light-content parallax-5"

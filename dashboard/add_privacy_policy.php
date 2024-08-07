@@ -44,10 +44,10 @@ if (isset($_COOKIE['edit_id'])) { $mode='edit' ; $editId=$_COOKIE['edit_id'];
         if ($Resp) {
             
                 setcookie("msg", "data", time() + 3600, "/");
-                // header("location:privacy_policy.php");
+                header("location:privacy_policy.php");
             } else {
                     setcookie("msg", "fail", time() + 3600, "/");
-                    // header("location:privacy_policy.php");
+                    header("location:privacy_policy.php");
                 }
             }
             

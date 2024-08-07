@@ -99,8 +99,8 @@ while ($row = mysqli_fetch_array($Resp)) { ?>
                         </div>
 
                         <div class="local-scroll wow fadeInUp" data-wow-offset="0">
-                            <a href="main-pages-services-1.html"
-                                class="btn btn-mod btn-large btn-round btn-hover-anim"><span>Our Services</span></a>
+                            <a href="services_new.php" class="btn btn-mod btn-large btn-round btn-hover-anim"><span>Our
+                                    Services</span></a>
                         </div>
 
                     </div>

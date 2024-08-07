@@ -1,4 +1,5 @@
-<?php include "db_connect.php";
+<?php
+include "db_connect.php";
 $obj = new DB_Connect();
 date_default_timezone_set('Asia/Kolkata');
 session_start();
@@ -7,7 +8,6 @@ session_start();
 <html lang="en">
 
     <head>
-
         <title>AIPL</title>
         <meta name="description" content="Resonance — One &amp; Multi Page Creative Template">
         <meta charset="utf-8">
@@ -43,17 +43,16 @@ session_start();
                 } else {
                     expires = "";
                 }
-                document.cookie = (name) + "=" + String(value) + expires + ";path=/ ";
-
+                document.cookie = name + "=" + value + expires + "; path=/";
             }
 
             function readCookie(name) {
-                var nameEQ = (name) + "=";
+                var nameEQ = name + "=";
                 var ca = document.cookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
                     var c = ca[i];
                     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                    if (c.indexOf(nameEQ) === 0) return (c.substring(nameEQ.length, c.length));
+                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
                 }
                 return null;
             }
@@ -61,10 +60,12 @@ session_start();
             function eraseCookie(name) {
                 createCookie(name, "", -1);
             }
+
             function redirect_product(pid) {
                 createCookie("pro_id", pid, 1);
                 window.location = "product.php";
             }
+
             function redirect_services(id) {
                 createCookie("id", id, 1);
                 window.location = "services_new.php";
@@ -72,140 +73,103 @@ session_start();
         </script>
     </head>
 
-    <body class="appear-animate"></body>
+    <body class="appear-animate">
 
-    <!-- Page Loader -->
-    <div class="page-loader">
-        <div class="loader">Loading...</div>
-    </div>
-    <!-- End Page Loader -->
+        <!-- Page Loader -->
+        <div class="page-loader">
+            <div class="loader">Loading...</div>
+        </div>
+        <!-- End Page Loader -->
 
-    <!-- Skip to Content -->
-    <a href="#main" class="btn skip-to-content">Skip to Content</a>
-    <!-- End Skip to Content -->
+        <!-- Skip to Content -->
+        <a href="#main" class="btn skip-to-content">Skip to Content</a>
+        <!-- End Skip to Content -->
 
-    <!-- Page Wrap -->
-    <div class="page" id="top">
+        <!-- Page Wrap -->
+        <div class="page" id="top">
 
-        <!-- Navigation Panel -->
-        <nav class="main-nav bg-white  stick-fixed wow-menubar">
-            <div class="main-nav-sub full-wrapper">
-                <div class="nav-logo-wrap local-scroll">
-                    <a href="index.php" class="logo">
-                        <img src="images/AIPL Logo.png" alt="Your Company Logo" width="105" height="34">
-                    </a>
-                </div>
+            <!-- Navigation Panel -->
+            <nav class="main-nav bg-white stick-fixed wow-menubar">
+                <div class="main-nav-sub full-wrapper">
+                    <div class="nav-logo-wrap local-scroll">
+                        <a href="index.php" class="logo">
+                            <img src="images/AIPL Logo.png" alt="Your Company Logo" width="105" height="34">
+                        </a>
+                    </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="mobile-nav" role="button" tabindex="0">
-                    <i class="mobile-nav-icon"></i>
-                    <span class="visually-hidden">Menu</span>
-                </div>
+                    <!-- Mobile Menu Button -->
+                    <div class="mobile-nav" role="button" tabindex="0">
+                        <i class="mobile-nav-icon"></i>
+                        <span class="visually-hidden">Menu</span>
+                    </div>
 
-                <!-- Main Menu -->
-                <div class="inner-nav desktop-nav">
-                    <ul class="clearlist local-scroll">
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="about_new.php">About</a></li>
-                        <li>
-                            <a href="#" class="mn-has-sub">Trading <i class="mi-chevron-down"></i></a>
-
-                            <!-- Sub Megamenu -->
-                            <ul class="mn-sub mn-has-multi">
-
-                                <li class="mn-sub-multi">
-
-                                    <ul>
-                                        <?php
-
-                                        $stmt = $obj->con1->prepare("SELECT * FROM `product` where LOWER(status)='enable'");
-
-                                        $stmt->execute();
-                                        $prod_res = $stmt->get_result();
-                                        $stmt->close();
-                                        $num_prod = $prod_res->num_rows;
-                                        $i = 1;
-                                        while ($products = mysqli_fetch_array($prod_res)) {
-
-
-                                            ?>
-                                            <li>
-                                                <a href="javascript:redirect_product(<?php echo $products["id"] ?>)">
-                                                    <?php echo $products["name"] ?></a>
-                                            </li>
+                    <!-- Main Menu -->
+                    <div class="inner-nav desktop-nav">
+                        <ul class="clearlist local-scroll">
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="about_new.php">About</a></li>
+                            <li>
+                                <a href="#" class="mn-has-sub">Trading <i class="mi-chevron-down"></i></a>
+                                <!-- Sub Megamenu -->
+                                <ul class="mn-sub mn-has-multi">
+                                    <li class="mn-sub-multi">
+                                        <ul>
                                             <?php
-                                            if ($i == ($num_prod / 2)) {
+                                            $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE LOWER(status)='enable'");
+                                            $stmt->execute();
+                                            $prod_res = $stmt->get_result();
+                                            $stmt->close();
+                                            while ($products = mysqli_fetch_array($prod_res)) {
                                                 ?>
-                                            </ul>
-                                        </li>
-                                        <li class="mn-sub-multi">
-
-                                            <ul>
-
+                                                <li>
+                                                    <a
+                                                        href="javascript:redirect_product(<?php echo $products["id"] ?>)"><?php echo $products["name"] ?></a>
+                                                </li>
                                                 <?php
-
                                                 }
-                                            $i++;
-                                            }
-                                        ?>
-
-                                    </ul>
-
-                                </li>
-
-
-
-                            </ul>
-                            <!-- End Sub Megamenu -->
-
-                        </li>
-                        <!-- Item With Sub -->
-                        <li>
-                            <a href="#" class="mn-has-sub">Services <i class="mi-chevron-down"></i></a>
-                            <!-- Sub Megamenu -->
-                            <ul class="mn-sub mn-has-multi">
-                                <li class="mn-sub-multi">
-                                    <ul>
-                                        <?php
-                                        $stmt = $obj->con1->prepare("SELECT * FROM `services` where LOWER(status)='enable'");
-                                        $stmt->execute();
-                                        $prod_res = $stmt->get_result();
-                                        $stmt->close();
-                                        $num_prod = $prod_res->num_rows;
-                                        $i = 1;
-                                        while ($services = mysqli_fetch_array($prod_res)) {
                                             ?>
-                                            <li>
-                                                <a href="javascript:redirect_services(<?php echo $services["id"] ?>)">
-                                                    <?php echo $services["service_name"] ?></a>
-                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <!-- End Sub Megamenu -->
+                            </li>
+                            <!-- Item With Sub -->
+                            <li>
+                                <a href="#" class="mn-has-sub">Services <i class="mi-chevron-down"></i></a>
+                                <!-- Sub Megamenu -->
+                                <ul class="mn-sub mn-has-multi">
+                                    <li class="mn-sub-multi">
+                                        <ul>
                                             <?php
-                                            if ($i == ($num_prod / 2)) {
+                                            $stmt = $obj->con1->prepare("SELECT * FROM `services` WHERE LOWER(status)='enable'");
+                                            $stmt->execute();
+                                            $serv_res = $stmt->get_result();
+                                            $stmt->close();
+                                            while ($services = mysqli_fetch_array($serv_res)) {
                                                 ?>
-                                            </ul>
-                                        </li>
-                                        <li class="mn-sub-multi">
-                                            <ul>
-
+                                                <li>
+                                                    <a
+                                                        href="javascript:redirect_services(<?php echo $services["id"] ?>)"><?php echo $services["service_name"] ?></a>
+                                                </li>
                                                 <?php
-
                                                 }
-                                            $i++;
-                                            }
-                                        ?>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <!-- End Sub Megamenu -->
-                        </li>
-
-                        <li><a href="contact.php">Contact</a></li>
-
-                    </ul>
-
-
+                                            ?>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <!-- End Sub Megamenu -->
+                            </li>
+                            <li><a href="contact.php">Contact</a></li>
+                        </ul>
+                    </div>
+                    <!-- End Main Menu -->
                 </div>
-                <!-- End Main Menu -->
-            </div>
-        </nav>
-        <!-- End Navigation Panel -->
+            </nav>
+            <!-- End Navigation Panel -->
+
+        </div>
+        <!-- End Page Wrap -->
+
+    </body>
+
+</html>
