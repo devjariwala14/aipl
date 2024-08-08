@@ -1,60 +1,53 @@
-<?php 
- include "header.php";
- include "alert.php";
+<?php
+include "header.php";
+include "alert.php";
 
- if(isset($_REQUEST["btndelete"]))
-{
-  $id = $_REQUEST['delete_id'];
-  try
-  {
-    $stmt_del = $obj->con1->prepare("DELETE FROM `privacy_policy` WHERE id = ?");
-    $stmt_del->bind_param("i",$id);
-    $Resp=$stmt_del->execute();
-    if(!$Resp)
-    {
-      throw new Exception("Problem in deleting! ". strtok($obj->con1-> error,  '('));
+if (isset($_REQUEST["btndelete"])) {
+    $id = $_REQUEST['delete_id'];
+    try {
+        $stmt_del = $obj->con1->prepare("DELETE FROM `privacy_policy` WHERE id = ?");
+        $stmt_del->bind_param("i", $id);
+        $Resp = $stmt_del->execute();
+        if (!$Resp) {
+            throw new Exception("Problem in deleting! " . strtok($obj->con1->error, '('));
+            }
+        $stmt_del->close();
+        } catch (\Exception $e) {
+        setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
+        }
+
+    if ($Resp) {
+        setcookie("msg", "data_del", time() + 3600, "/");
+        header("location:privacy_policy.php");
+        } else {
+        setcookie("msg", "fail", time() + 3600, "/");
+        header("location:privacy_policy.php");
+        }
     }
-    $stmt_del->close();
-  }
-  catch(\Exception  $e) {
-    setcookie("sql_error", urlencode($e->getMessage()),time()+3600,"/");
-  }
-
-  if($Resp)
-  {
-    setcookie("msg", "data_del",time()+3600,"/");
-    header("location:privacy_policy.php");
-  }
-  else
-  {
-   setcookie("msg", "fail",time()+3600,"/");
-   header("location:privacy_policy.php");
- }
-}
 ?>
 <script type="text/javascript">
-function add_data() {
-    eraseCookie("edit_id");
-    eraseCookie("view_id");
-    window.location = "add_privacy_policy.php";
-}
+    function add_data() {
+        eraseCookie("edit_id");
+        eraseCookie("view_id");
+        window.location = "add_privacy_policy.php";
+    }
 
-function editdata(id) {
-    eraseCookie("view_id");
-    createCookie("edit_id", id, 1);
-    window.location = "add_privacy_policy.php";
-}
+    function editdata(id) {
+        eraseCookie("view_id");
+        createCookie("edit_id", id, 1);
+        window.location = "add_privacy_policy.php";
+    }
 
-function viewdata(id) {
-    eraseCookie("edit_id");
-    createCookie("view_id", id, 1);
-    window.location = "add_privacy_policy.php";
-}
+    function viewdata(id) {
+        eraseCookie("edit_id");
+        createCookie("view_id", id, 1);
+        window.location = "add_privacy_policy.php";
+    }
 
-function deletedata(id) {
-    $('#deleteModal').modal('toggle');
-    $('#delete_id').val(id);
-}
+    function deletedata(id) {
+        $('#deleteModal').modal('toggle');
+        $('#delete_id').val(id);
+    }
 </script>
 
 <!-- Basic Modal -->
@@ -117,32 +110,32 @@ function deletedata(id) {
                             $Resp = $stmt->get_result();
                             $i = 1;
                             while ($row = mysqli_fetch_array($Resp)) { ?>
-                            <tr>
+                                <tr>
 
-                                <th scope="row"><?php echo $i; ?></th>
+                                    <th scope="row"><?php echo $i; ?></th>
 
-                                <td><?php echo $row["details"] ?></td>
+                                    <td><?php echo $row["details"] ?></td>
 
-                                <td>
-                                    <?php
-                                     $dateTime = strtotime($row["date_time"]);
-                                     echo date("d-m-Y h:i A", $dateTime);
-                                     ?>
-                                </td>
+                                    <td>
+                                        <?php
+                                        $dateTime = strtotime($row["date_time"]);
+                                        echo date("d-m-Y h:i A", $dateTime);
+                                        ?>
+                                    </td>
 
 
-                                <td>
-                                    <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
-                                            class="bx bx-show-alt bx-sm me-2"></i></a>
-                                    <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
-                                            class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
-                                    <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
-                                            class="bx bx-trash bx-sm text-danger"></i></a>
-                                </td>
-                            </tr>
-                            <?php $i++;
-                                                  }
-                                             ?>
+                                    <td>
+                                        <a href="javascript:viewdata('<?php echo $row["id"] ?>');"><i
+                                                class="bx bx-show-alt bx-sm me-2"></i></a>
+                                        <a href="javascript:editdata('<?php echo $row["id"] ?>');"><i
+                                                class="bx bx-edit-alt bx-sm text-success me-2"></i></a>
+                                        <a href="javascript:deletedata('<?php echo $row["id"] ?>');"><i
+                                                class="bx bx-trash bx-sm text-danger"></i></a>
+                                    </td>
+                                </tr>
+                                <?php $i++;
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>

@@ -4,14 +4,24 @@ include "header.php";
 if (isset($_REQUEST["btndelete"])) {
     $p_id = $_REQUEST['delete_id'];
     try {
+        // Fetch product details including image and icon paths
         $stmt_subimg = $obj->con1->prepare("SELECT * FROM `product` WHERE id=?");
         $stmt_subimg->bind_param("i", $p_id);
         $stmt_subimg->execute();
         $Resp_subimg = $stmt_subimg->get_result()->fetch_assoc();
         $stmt_subimg->close();
-        if (file_exists("images/product/" . $Resp_subimg["img_path"])) {
-            unlink("images/product/" . $Resp_subimg["img_path"]);
+
+        // Delete the product image if it exists
+        if (file_exists("images/product/" . $Resp_subimg["image"])) {
+            unlink("images/product/" . $Resp_subimg["image"]);
             }
+
+        // Delete the icon if it exists
+        if (file_exists("images/icon/" . $Resp_subimg["icon"])) {
+            unlink("images/icon/" . $Resp_subimg["icon"]);
+            }
+
+        // Delete the record from the database
         $stmt_del = $obj->con1->prepare("DELETE FROM `product` WHERE id=?");
         $stmt_del->bind_param("i", $p_id);
         $Resp = $stmt_del->execute();
@@ -22,12 +32,14 @@ if (isset($_REQUEST["btndelete"])) {
         } catch (\Exception $e) {
         setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
         }
+
     if ($Resp) {
         setcookie("msg", "data_del", time() + 3600, "/");
         }
     header("location:product.php");
     }
 ?>
+
 <script type="text/javascript">
     function add_data() {
         eraseCookie("edit_id");
@@ -99,7 +111,7 @@ if (isset($_REQUEST["btndelete"])) {
                                 <tr>
                                     <th scope="col">Sr.no</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Image</th>
+                                    <th scope="col">Icon</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -116,11 +128,11 @@ if (isset($_REQUEST["btndelete"])) {
                                         <td><?php echo $row["name"]; ?></td>
                                         <td>
                                             <?php
-                                            $img_array = array("jpg", "jpeg", "png", "bmp");
-                                            $extn = strtolower(pathinfo($row["image"], PATHINFO_EXTENSION));
+                                            $img_array = array("jpg", "jpeg", "png", "bmp", "svg");
+                                            $extn = strtolower(pathinfo($row["icon"], PATHINFO_EXTENSION));
                                             if (in_array($extn, $img_array)) {
                                                 ?>
-                                                <img src="images/product/<?php echo $row["image"]; ?>" width="200" height="200"
+                                                <img src="images/icon/<?php echo $row["icon"]; ?>" width="200" height="200"
                                                     style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
                                                     class="object-fit-cover shadow rounded">
                                                 <?php

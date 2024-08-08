@@ -22,7 +22,7 @@ if (!isset($_SESSION["userlogin"])) {
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/AIPL_Logo.png" rel="icon">
+    <link href="assets/img/aipl_favi.png" rel="icon">
     <link href="assets/img/AIPL_Logo.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->

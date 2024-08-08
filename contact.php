@@ -1,6 +1,8 @@
 <?php
 include "header.php";
 
+$messageSent = false;
+
 if (isset($_REQUEST["submit_btn"])) {
     $name = $_REQUEST["name"];
     $email = $_REQUEST["email"];
@@ -9,11 +11,14 @@ if (isset($_REQUEST["submit_btn"])) {
 
     $stmt_contact = $obj->con1->prepare("INSERT INTO `contact_us`( `name`, `email`, `message`,`phone_no`) VALUES (?,?,?,?)");
     $stmt_contact->bind_param("ssss", $name, $email, $message, $contact);
-    $stmt_contact->execute();
+    if ($stmt_contact->execute()) {
+        $messageSent = true;
+        }
 
     $stmt_contact->close();
-}
+    }
 ?>
+
 
 <main id="main">
 
@@ -147,8 +152,7 @@ if (isset($_REQUEST["submit_btn"])) {
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="input-lg round form-control"
-                                        placeholder="Enter your name"  required
-                                        aria-required="true">
+                                        placeholder="Enter your name" required aria-required="true">
                                 </div>
                             </div>
 
@@ -158,7 +162,8 @@ if (isset($_REQUEST["submit_btn"])) {
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" name="email" id="email" class="input-lg round form-control"
-                                        placeholder="Enter your email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required 
+                                        placeholder="Enter your email"
+                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required
                                         aria-required="true">
                                 </div>
 
@@ -231,6 +236,13 @@ if (isset($_REQUEST["submit_btn"])) {
     </section>
     <!-- End Contact Section -->
 </main>
+<?php if ($messageSent): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            alert('Message sent successfully!');
+        });
+    </script>
+<?php endif; ?>
 <?php
 include "footer.php";
 ?>

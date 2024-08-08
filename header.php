@@ -14,7 +14,7 @@ session_start();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Favicon -->
-        <link href="dashboard/assets/img/AIPL_Logo.png" rel="icon">
+        <link href="dashboard/assets/img/aipl_favi.png" rel="icon">
         <link href="dashboard/assets/img/AIPL_Logo.png" rel="apple-touch-icon">
 
         <!-- CSS -->
@@ -68,7 +68,7 @@ session_start();
 
             function redirect_services(id) {
                 createCookie("id", id, 1);
-                window.location = "services_new.php";
+                window.location = "services.php";
             }
         </script>
     </head>
@@ -107,7 +107,7 @@ session_start();
                     <div class="inner-nav desktop-nav">
                         <ul class="clearlist local-scroll">
                             <li><a href="index.php">Home</a></li>
-                            <li><a href="about_new.php">About</a></li>
+                            <li><a href="about.php">About</a></li>
                             <li>
                                 <a href="#" class="mn-has-sub">Trading <i class="mi-chevron-down"></i></a>
                                 <!-- Sub Megamenu -->

@@ -96,7 +96,6 @@ if (isset($_REQUEST["btndelete"])) {
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
@@ -156,9 +155,6 @@ function redirectToNewPage(link) { window.location.href = link;
 // Replace with your desired URL 
 } 
 </script> -->
-
-
-
 <?php
 include "footer.php";
 ?>
