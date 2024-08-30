@@ -102,8 +102,10 @@ if (isset($_REQUEST["btndelete"])) {
                         <a href="javascript:adddata();"><button type="button" class="btn btn-success"><i
                                     class="bi bi-plus me-1"></i> Add</button></a>
                     </div>
+                    
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
+                        
                         <thead>
                             <tr>
                                 <th scope="col">Sr.no</th>
