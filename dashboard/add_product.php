@@ -23,6 +23,7 @@ if (isset($_COOKIE['view_id'])) {
 
 if (isset($_REQUEST["save"])) {
   $name = $_REQUEST["name"];
+  $category = $_REQUEST["category"]; // Retrieve the selected category
   $desc = $_REQUEST["desc"];
   $application = $_REQUEST["application"];
   $specification = $_REQUEST["specification"];
@@ -71,31 +72,33 @@ if (isset($_REQUEST["save"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("INSERT INTO `product`(`name`, `icon`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`, `status`) VALUES (?,?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("sssssssss", $name, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status);
+    $stmt = $obj->con1->prepare("INSERT INTO `product` ( `category`,`name`, `icon`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssss", $name, $category, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status);
     $Resp = $stmt->execute();
+    
     if (!$Resp) {
-      throw new Exception("Problem in adding! " . strtok($obj->con1->error, "("));
+        throw new Exception("Problem in adding! " . strtok($obj->con1->error, "("));
     }
     $stmt->close();
-  } catch (\Exception $e) {
+} catch (\Exception $e) {
     setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
-  }
+}
 
-  if ($Resp) {
+if ($Resp) {
     move_uploaded_file($temp_img_path, "images/product/" . $PicFileName);
     move_uploaded_file($temp_icon_path, "images/icon/" . $PicFileName1);
     setcookie("msg", "data", time() + 3600, "/");
     header("location:product.php");
-  } else {
+} else {
     setcookie("msg", "fail", time() + 3600, "/");
     header("location:product.php");
-  }
+}
 }
 
 if (isset($_REQUEST["update"])) {
   $id = $_COOKIE['edit_id'];
   $name = $_REQUEST["name"];
+  $category = $_REQUEST["category"]; // Retrieve the selected category
   $desc = $_REQUEST["desc"];
   $application = $_REQUEST["application"];
   $specification = $_REQUEST["specification"];
@@ -152,26 +155,27 @@ if (isset($_REQUEST["update"])) {
     $PicFileName1 = $_REQUEST['old_icon'];
   }
 
+
   try {
-    $stmt = $obj->con1->prepare("UPDATE `product` SET `name`=?, `icon`=?, `image`=?, `description`=?, `application`=?, `specification`=?, `chemical_comp`=?, `mech_prop`=?, `status`=? WHERE `id`=?");
-    $stmt->bind_param("sssssssssi", $name, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status, $id);
+    $stmt = $obj->con1->prepare("UPDATE `product` SET `category`=?, `name`=?, `icon`=?, `image`=?, `description`=?, `application`=?, `specification`=?, `chemical_comp`=?, `mech_prop`=?, `status`=? WHERE `id`=?");
+    $stmt->bind_param("ssssssssssi", $name, $category, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status, $id);
     $Resp = $stmt->execute();
 
     if (!$Resp) {
-      throw new Exception("Problem in updating! " . strtok($obj->con1->error, "("));
+        throw new Exception("Problem in updating! " . strtok($obj->con1->error, "("));
     }
     $stmt->close();
-  } catch (\Exception $e) {
+} catch (\Exception $e) {
     setcookie("sql_error", urlencode($e->getMessage()), time() + 3600, "/");
-  }
+}
 
-  if ($Resp) {
+if ($Resp) {
     setcookie("msg", "data", time() + 3600, "/");
     header("location:product.php");
-  } else {
+} else {
     setcookie("msg", "fail", time() + 3600, "/");
     header("location:product.php");
-  }
+}
 }
 ?>
 
@@ -205,6 +209,27 @@ if (isset($_REQUEST["update"])) {
                             <label class="col-sm-2 col-form-label">Name</label>
                             <input type="text" id="name" name="name" class="form-control" required
                           value="<?= (isset($mode)) ? $data['name'] : '' ?>" <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
+                        </div>
+                        <div class="col-md-12">
+                            <label for="category" class="form-label">Product Category</label>
+                            <select id="inputMenu" class="form-select" name="category">
+                                <option selected>Choose Menu</option>
+                                <?php
+                                        $stmt_list = $obj->con1->prepare("SELECT * FROM `product_category` WHERE `status`= 'Enable'");
+                                        $stmt_list->execute();
+                                        $result = $stmt_list->get_result();
+                                        $stmt_list->close();
+                                        $i=1;
+                                        while($state=mysqli_fetch_array($result))
+                                        {
+                                    ?>
+                                <option value="<?php echo $state["id"]?>"
+                                    <?php echo isset($mode) && $data['id'] == $state["id"] ? 'selected' : '' ?>>
+                                    <?php echo $state["category"]?></option>
+                                <?php
+                                        }
+                                    ?>
+                            </select>
                         </div>
                         <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
     <label for="inputNumber" class="col-sm-2 col-form-label">Icon</label>

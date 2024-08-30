@@ -93,8 +93,6 @@ if (!isset($_SESSION["userlogin"])) {
       <div class="d-flex align-items-center justify-content-between">
         <a href="index.php" class="logo d-flex align-items-center">
           <img src="assets/img/AIPL_Logo.png" alt="">
-
-
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
       </div><!-- End Logo -->
@@ -147,6 +145,12 @@ if (!isset($_SESSION["userlogin"])) {
           <a class="nav-link collapsed" href="admin.php">
             <i class="bi bi-person"></i>
             <span>Admin </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="product_category.php">
+            <i class="bi bi-bag"></i>
+            <span>Product Category</span>
           </a>
         </li>
         <li class="nav-item">
