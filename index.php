@@ -112,7 +112,6 @@ include "header.php";
 
                 <div class="col-lg-6 mb-md-60">
                     <div class="position-relative">
-
                         <!-- Image -->
                         <div class="position-relative overflow-hidden">
                             <!-- <video autoplay="autoplay">
@@ -243,6 +242,54 @@ include "header.php";
     <hr class="mt-0 mb-0">
     <!-- End Divider -->
 
+    <!-- Team Section -->
+    <section class="page-section pb-0" id="team">
+        <div class="container">
+
+            <div class="row mb-70 mb-sm-50">
+                <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
+                    <h2 class="section-title mb-30 mb-sm-20"><span class="text-gray">Product </span>Category<span
+                            class="text-gray">.</span></h2>
+                </div>
+            </div>
+
+            <div class="row mt-n40">
+                <?php
+                $stmt = $obj->con1->prepare("SELECT * FROM `product_category`ORDER BY `category` DESC");
+                $stmt->execute();
+                $Resp = $stmt->get_result();
+                $i = 1;
+                while ($row = mysqli_fetch_array($Resp)) { ?>
+                    <div class="col-md-4 mt-40">
+                        <div class="team-item">
+                            <div class="team-item-image">
+                                <a href="category.php?category=<?php echo $row['category']; ?>">
+                                    <img src="dashboard/images/product_category/<?php echo $row['image']; ?>"
+                                        class="wow scaleOutIn" data-wow-duration="1.2s" alt="Image Description" width="410"
+                                        height="270" />
+                                </a>
+                            </div>
+                            <div class="team-item-descr">
+                                <div class="team-item-name">
+                                    <?php echo $row['category']; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                    } ?>
+                <!-- End Team item -->
+            </div>
+
+        </div>
+    </section>
+    <!-- End Team Section -->
+    <!-- End Call Action Section -->
+
+    <!-- Divider -->
+    <hr class="mt-0 mb-0">
+    <!-- End Divider -->
 
     <!-- Call Action Section -->
     <section class="page-section">
@@ -271,13 +318,6 @@ include "header.php";
 
         </div>
     </section>
-    <!-- End Call Action Section -->
-
-    <!-- Divider -->
-    <hr class="mt-0 mb-0">
-    <!-- End Divider -->
-
-
     <!-- Promo Section -->
     <section class="page-section">
         <div class="container position-relative">
@@ -412,6 +452,7 @@ include "header.php";
         </div>
     </section>
     <!-- End Promo Section -->
+
 
     <!-- Divider -->
     <hr class="mt-0 mb-0">

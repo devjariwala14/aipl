@@ -179,12 +179,6 @@ if ($Resp) {
 }
 ?>
 
-<!-- The HTML code remains the same -->
-
-
-
-
-
 <div class="pagetitle">
     <h1>Products</h1>
     <nav>

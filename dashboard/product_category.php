@@ -111,6 +111,7 @@ if (isset($_REQUEST["btndelete"])) {
                                 <tr>
                                     <th scope="col">Sr.no</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -125,6 +126,18 @@ if (isset($_REQUEST["btndelete"])) {
                                     <tr>
                                         <th scope="row"><?php echo $i ?></th>
                                         <td><?php echo $row["category"]; ?></td>
+                                        <td>
+                                            <?php
+                                            $img_array = array("jpg", "jpeg", "png", "bmp", "svg");
+                                            $extn = strtolower(pathinfo($row["image"], PATHINFO_EXTENSION));
+                                            if (in_array($extn, $img_array)) {
+                                                ?>
+                                                <img src="images/product_category/<?php echo $row["image"]; ?>" width="200" height="200"
+                                                    style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
+                                                    class="object-fit-cover shadow rounded">
+                                                <?php
+                                                } ?>
+                                        </td>
 
                                         <td>
                                             <h4><span

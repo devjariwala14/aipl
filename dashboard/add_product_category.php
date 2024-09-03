@@ -4,7 +4,7 @@ include "header.php";
 if (isset($_COOKIE['edit_id'])) {
     $mode = 'edit';
     $editId = $_COOKIE['edit_id'];
-    $stmt = $obj->con1->prepare("SELECT * FROM `product_category` where id=?");
+    $stmt = $obj->con1->prepare("SELECT * FROM `product_category` WHERE id=?");
     $stmt->bind_param('i', $editId);
     $stmt->execute();
     $data = $stmt->get_result()->fetch_assoc();
@@ -14,7 +14,7 @@ if (isset($_COOKIE['edit_id'])) {
 if (isset($_COOKIE['view_id'])) {
     $mode = 'view';
     $viewId = $_COOKIE['view_id'];
-    $stmt = $obj->con1->prepare("SELECT * FROM `product_category` where id=?");
+    $stmt = $obj->con1->prepare("SELECT * FROM `product_category` WHERE id=?");
     $stmt->bind_param('i', $viewId);
     $stmt->execute();
     $data = $stmt->get_result()->fetch_assoc();
@@ -24,9 +24,50 @@ if (isset($_COOKIE['view_id'])) {
 if (isset($_REQUEST["save"])) {
     $category = $_REQUEST["category"];
     $status = $_REQUEST["status"];
+    // $img_path = $_FILES["image"]["name"];
+
+    // if ($img_path != "") {
+    //     // Handle file name generation and upload
+    //     if (file_exists("images/product_category/" . $img_path)) {
+    //         $i = 0;
+    //         $Arr1 = explode('.', $img_path);
+    //         $PicFileName = $Arr1[0] . $i . "." . $Arr1[1];
+    //         while (file_exists("images/product_category/" . $PicFileName)) {
+    //             $i++;
+    //             $PicFileName = $Arr1[0] . $i . "." . $Arr1[1];
+    //             }
+    //         } else {
+    //         $PicFileName = $img_path;
+    //         }
+    //     move_uploaded_file($temp_img_path, "images/product_category/" . $PicFileName);
+    //     } else {
+    //     $PicFileName = $_REQUEST['old_img']; // Use old image if no new image is uploaded
+    //     }
+
+    $image = $_FILES['img_path']['name'];
+    $image = str_replace(' ', '_', $image);
+    $temp_icon_path = $_FILES['img_path']['tmp_name'];
+
+    if ($image != "") {
+        if (file_exists("images/product_category/" . $image)) {
+            $i = 0;
+            $Arr1 = explode('.', $image);
+            $PicFileName1 = $Arr1[0] . $i . "." . $Arr1[1];
+            while (file_exists("images/product_category/" . $PicFileName1)) {
+                $i++;
+                $PicFileName1 = $Arr1[0] . $i . "." . $Arr1[1];
+                }
+            } else {
+            $PicFileName1 = $image;
+            }
+        move_uploaded_file($temp_icon_path, "images/product_category/" . $PicFileName1);
+        } else {
+        $PicFileName1 = $_REQUEST['old_icon']; // Use old icon if no new icon is uploaded
+        }
     try {
-        $stmt = $obj->con1->prepare("INSERT INTO `product_category`(`category`,`status`) VALUES (?,?)");
-        $stmt->bind_param("ss", $category, $status);
+
+        $stmt = $obj->con1->prepare("INSERT INTO `product_category`(`category`, `image`, `status`) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $category, $PicFileName1, $status);
         $Resp = $stmt->execute();
         if (!$Resp) {
             throw new Exception("Problem in adding! " . strtok($obj->con1->error, "("));
@@ -49,11 +90,62 @@ if (isset($_REQUEST["update"])) {
     $id = $_COOKIE['edit_id'];
     $category = $_REQUEST["category"];
     $status = $_REQUEST["status"];
-    try {
-        $stmt = $obj->con1->prepare("UPDATE `product_category` SET `category`=?, `status`=? WHERE `id`=?");
-        $stmt->bind_param("ssi", $category, $status, $id);
-        $Resp = $stmt->execute();
 
+
+    $img_path = $_FILES['img_path']['name'] ? $_FILES['img_path']['name'] : $_REQUEST['old_img'];
+    $temp_img_path = $_FILES['img_path']['tmp_name'];
+    $image = $_FILES['image']['name'] ? $_FILES['image']['name'] : $_REQUEST['old_icon'];
+    $temp_icon_path = $_FILES['image']['tmp_name'];
+
+    if ($img_path != $_REQUEST['old_img']) {
+        if (file_exists("images/product_category/" . $img_path)) {
+            $i = 0;
+            $PicFileName = $img_path;
+            $Arr1 = explode('.', $PicFileName);
+
+            $PicFileName = $Arr1[0] . $i . "." . $Arr1[1];
+            while (file_exists("images/product_category/" . $PicFileName)) {
+                $i++;
+                $PicFileName = $Arr1[0] . $i . "." . $Arr1[1];
+                }
+            } else {
+            $PicFileName = $img_path;
+            }
+        if ($_REQUEST['old_img'] != '') {
+            unlink("images/product_category/" . $_REQUEST['old_img']);
+            }
+        move_uploaded_file($temp_img_path, "images/product_category/" . $PicFileName);
+        } else {
+        $PicFileName = $_REQUEST['old_img'];
+        }
+
+    if ($image != $_REQUEST['old_icon']) {
+        if (file_exists("images/product_category/" . $image)) {
+            $i = 0;
+            $PicFileName1 = $image;
+            $Arr1 = explode('.', $PicFileName1);
+
+            $PicFileName1 = $Arr1[0] . $i . "." . $Arr1[1];
+            while (file_exists("images/product_category/" . $PicFileName1)) {
+                $i++;
+                $PicFileName1 = $Arr1[0] . $i . "." . $Arr1[1];
+                }
+            } else {
+            $PicFileName1 = $image;
+            }
+        if ($_REQUEST['old_icon'] != '') {
+            unlink("images/product_category/" . $_REQUEST['old_icon']);
+            }
+        move_uploaded_file($temp_icon_path, "images/product_category/" . $PicFileName1);
+        } else {
+        $PicFileName1 = $_REQUEST['old_icon'];
+        }
+
+
+    try {
+        $stmt = $obj->con1->prepare("UPDATE `product_category` SET `category`=?, `image`=?, `status`=? WHERE `id`=?");
+        $stmt->bind_param("sssi", $category, $PicFileName, $status, $id);
+        $Resp = $stmt->execute();
         if (!$Resp) {
             throw new Exception("Problem in updating! " . strtok($obj->con1->error, "("));
             }
@@ -72,11 +164,7 @@ if (isset($_REQUEST["update"])) {
     }
 ?>
 
-<!-- The HTML code remains the same -->
-
-
-
-
+<!-- The HTML and JavaScript code remains the same -->
 
 <div class="pagetitle">
     <h1>Products</h1>
@@ -104,6 +192,22 @@ if (isset($_REQUEST["update"])) {
                             <input type="text" id="category" name="category" class="form-control" required
                                 value="<?= (isset($mode)) ? $data['category'] : '' ?>" <?= isset($mode) && $mode == 'view' ? 'readonly' : '' ?> />
 
+                        </div>
+                        <div class="col-md-12" <?php echo (isset($mode) && $mode == 'view') ? 'hidden' : '' ?>>
+                            <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
+                            <input class="form-control" type="file" id="img_path" name="img_path"
+                                onchange="readURL(this, 'PreviewImage')" />
+                        </div>
+                        <div>
+                            <label class="font-bold text-primary mt-2  mb-3"
+                                style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>">Preview</label>
+                            <img src="<?php echo (isset($mode)) ? 'images/product_category/' . $data['image'] : '' ?>"
+                                name="PreviewImage" id="PreviewImage" height="300"
+                                style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>"
+                                class="object-cover shadow rounded">
+                            <div id="imgdiv2" style="color:red"></div>
+                            <input type="hidden" name="old_img" id="old_img"
+                                value="<?php echo (isset($mode) && $mode == 'edit') ? $data['image'] : '' ?>" />
                         </div>
                         <div class="mb-3">
                             <label class="form-label d-block" for="basic-default-fullname">Status</label>

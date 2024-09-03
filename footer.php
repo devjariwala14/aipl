@@ -47,7 +47,7 @@
                         <ul class="fw-menu clearlist">
                             <li>
                                 <a href="#" rel="noopener nofollow" target="_blank">
-                                    <a href="tel:+91 09825034445">+91 09825034445</a>
+                                    <a href="tel:+91 09825034445">+91 9825034445</a>
                                 </a>
                             </li>
                             <li>
