@@ -6,11 +6,11 @@ $id = isset($_COOKIE['pro_id']) ? intval($_COOKIE['pro_id']) : 0;
 
 // Prepare the SQL query based on the id
 if ($id) {
-    
+
     $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE `id` = ? ORDER BY `id` DESC");
     $stmt->bind_param("i", $id);
     } else {
-    
+
     $stmt = $obj->con1->prepare("SELECT * FROM `product` ORDER BY `id` DESC");
     }
 
@@ -54,7 +54,8 @@ while ($row = mysqli_fetch_array($Resp)) {
                             <div class="blog-item-body">
                                 <!-- Media Gallery -->
                                 <div class="blog-media mb-40 mb-xs-30">
-                                    <img src="dashboard/images/product/<?php echo $row["image"]; ?>" alt="Image Description">
+                                    <img src="dashboard/images/product/<?php echo $row["image"]; ?>"
+                                        alt="Image Description">
                                 </div>
                             </div>
                             <p>
@@ -74,7 +75,7 @@ while ($row = mysqli_fetch_array($Resp)) {
                                 <!-- Nav Tabs -->
                                 <div class="text-center mb-40 mb-xxs-30">
                                     <ul class="nav nav-tabs tpl-tabs animate" role="tablist">
-                                    <?php if (!empty($specification)) { ?>
+                                        <?php if (!empty($specification)) { ?>
                                             <li class="nav-item" role="presentation">
                                                 <a href="#item-<?php echo $i; ?>-3" aria-controls="item-<?php echo $i; ?>-3"
                                                     class="nav-link active" data-bs-toggle="tab" role="tab"
@@ -88,7 +89,7 @@ while ($row = mysqli_fetch_array($Resp)) {
                                                     aria-selected="true">Applications</a>
                                             </li>
                                         <?php } ?>
-                                        
+
                                         <?php if (!empty($chemicalComp)) { ?>
                                             <li class="nav-item" role="presentation">
                                                 <a href="#item-<?php echo $i; ?>-4" aria-controls="item-<?php echo $i; ?>-4"
@@ -109,7 +110,7 @@ while ($row = mysqli_fetch_array($Resp)) {
 
                                 <!-- Tab panes -->
                                 <div class="tab-content tpl-minimal-tabs-cont">
-                                <?php if (!empty($specification)) { ?>
+                                    <?php if (!empty($specification)) { ?>
                                         <div id="item-<?php echo $i; ?>-3" class="tab-pane fade active show" role="tabpanel">
                                             <p><?php echo $specification; ?></p>
                                         </div>
@@ -119,7 +120,7 @@ while ($row = mysqli_fetch_array($Resp)) {
                                             <p><?php echo $application; ?></p>
                                         </div>
                                     <?php } ?>
-                                    
+
                                     <?php if (!empty($chemicalComp)) { ?>
                                         <div id="item-<?php echo $i; ?>-4" class="tab-pane fade" role="tabpanel">
                                             <p><?php echo $chemicalComp; ?></p>

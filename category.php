@@ -34,22 +34,23 @@ if (isset($_GET['category'])) {
                     <!-- Services Item -->
                     <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-30">
                         <div class="services-3-item round text-center">
-                            <div class="wow fadeInUpShort animated" data-wow-offset="50"
-                                style="visibility: visible; animation-name: fadeInUpShort;">
+                            <a href="product.php?productId=<?php echo $row['id']; ?>">
+                                <div class="wow fadeInUpShort animated" data-wow-offset="50"
+                                    style="visibility: visible; animation-name: fadeInUpShort;">
 
-                                <div class="services-3-icon">
-                                    <img src="dashboard/images/icon/<?php echo $row["icon"]; ?>" alt="Product Icon">
+                                    <div class="services-3-icon">
+                                        <img src="dashboard/images/icon/<?php echo $row["icon"]; ?>" alt="Product Icon">
+                                    </div>
+
+                                    <h3 class="services-3-title">
+                                        <?php echo $row["name"]; ?>
+                                    </h3>
+
+                                    <div class="services-3-text">
+                                        <?php echo $row["description"]; ?>
+                                    </div>
+
                                 </div>
-
-                                <h3 class="services-3-title">
-                                    <?php echo $row["name"]; ?>
-                                </h3>
-
-                                <div class="services-3-text">
-                                    <?php echo $row["description"]; ?>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
                     <!-- End Services Item -->
