@@ -72,7 +72,7 @@ if (isset($_REQUEST["save"])) {
   }
 
   try {
-    $stmt = $obj->con1->prepare("INSERT INTO `product` ( `category`,`name`, `icon`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $obj->con1->prepare("INSERT INTO `product` ( `name`,`category`, `icon`, `image`, `description`, `application`, `specification`, `chemical_comp`, `mech_prop`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssssssss", $name, $category, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status);
     $Resp = $stmt->execute();
     
@@ -147,18 +147,18 @@ if (isset($_REQUEST["update"])) {
     } else {
       $PicFileName1 = $icon;
     }
-    if ($_REQUEST['old_icon'] != '') {
-      unlink("images/icon/" . $_REQUEST['old_icon']);
+    if ($_REQUEST['icon'] != '') {
+      unlink("images/icon/" . $_REQUEST['icon']); 
     }
     move_uploaded_file($temp_icon_path, "images/icon/" . $PicFileName1);
   } else {
-    $PicFileName1 = $_REQUEST['old_icon'];
+    $PicFileName1 = $_REQUEST['icon'];
   }
 
 
   try {
     $stmt = $obj->con1->prepare("UPDATE `product` SET `category`=?, `name`=?, `icon`=?, `image`=?, `description`=?, `application`=?, `specification`=?, `chemical_comp`=?, `mech_prop`=?, `status`=? WHERE `id`=?");
-    $stmt->bind_param("ssssssssssi", $name, $category, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status, $id);
+    $stmt->bind_param("ssssssssssi", $category, $name, $PicFileName1, $PicFileName, $desc, $application, $specification, $chemical_comp, $mech_prop, $status, $id);
     $Resp = $stmt->execute();
 
     if (!$Resp) {

@@ -1,7 +1,7 @@
 <?php
 include "header.php";
 
-// Check if 'id' is set in the URL
+// Check if 'category' is set in the URL
 if (isset($_GET['category'])) {
     echo $category = $_GET['category'];
 
@@ -28,7 +28,7 @@ if (isset($_GET['category'])) {
         <div class="container mt-n140 position-relative z-index-1">
             <div class="row mb-n30">
                 <?php
-                // Loop through the products and display them
+                // Loop through the products and display them side by side
                 while ($row = $Resp->fetch_assoc()) {
                     ?>
                     <!-- Services Item -->
@@ -39,7 +39,7 @@ if (isset($_GET['category'])) {
                                     style="visibility: visible; animation-name: fadeInUpShort;">
 
                                     <div class="services-3-icon">
-                                        <img src="dashboard/images/icon/<?php echo $row["icon"]; ?>" alt="Product Icon">
+                                        <img src="dashboard/images/product/<?php echo $row["icon"]; ?>" alt="Product Icon">
                                     </div>
 
                                     <h3 class="services-3-title">
@@ -51,6 +51,7 @@ if (isset($_GET['category'])) {
                                     </div>
 
                                 </div>
+                            </a>
                         </div>
                     </div>
                     <!-- End Services Item -->

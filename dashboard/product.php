@@ -79,7 +79,7 @@ if (isset($_REQUEST["btndelete"])) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="btndelete" id="btndelete">Delete</button>
+                    <button type="  " class="btn btn-primary" name="btndelete" id="btndelete">Delete</button>
                 </div>
             </form>
         </div>
@@ -91,7 +91,7 @@ if (isset($_REQUEST["btndelete"])) {
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
             <li class="breadcrumb-item">Products</li>
-            <li class="breadcrumb-item active">Data</li>
+            <li class="breadcrumb-item active">Data</li>    
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -127,16 +127,8 @@ if (isset($_REQUEST["btndelete"])) {
                                         <th scope="row"><?php echo $i ?></th>
                                         <td><?php echo $row["name"]; ?></td>
                                         <td>
-                                            <?php
-                                            $img_array = array("jpg", "jpeg", "png", "bmp", "svg");
-                                            $extn = strtolower(pathinfo($row["icon"], PATHINFO_EXTENSION));
-                                            if (in_array($extn, $img_array)) {
-                                                ?>
-                                                <img src="images/icon/<?php echo $row["icon"]; ?>" width="200" height="200"
-                                                    style="display:<?php (in_array($extn, $img_array)) ? 'block' : 'none' ?>"
-                                                    class="object-fit-cover shadow rounded">
-                                                <?php
-                                                } ?>
+                                            <img src="images/icon/<?php echo $row["icon"]; ?>" width="200" height="200"
+                                                class="object-fit-cover shadow rounded">
                                         </td>
                                         <td>
                                             <h4><span

@@ -109,7 +109,7 @@ session_start();
                             <li><a href="index.php">Home</a></li>
                             <li><a href="about.php">About</a></li>
                             <li>
-                                <a href="#" class="mn-has-sub">Trading <i class="mi-chevron-down"></i></a>
+                                <a href="#" class="mn-has-sub">Product <i class="mi-chevron-down"></i></a>
                                 <!-- Sub Megamenu -->
                                 <ul class="mn-sub mn-has-multi">
                                     <li class="mn-sub-multi">

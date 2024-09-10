@@ -6,11 +6,9 @@ $id = isset($_COOKIE['pro_id']) ? intval($_COOKIE['pro_id']) : 0;
 
 // Prepare the SQL query based on the id
 if ($id) {
-
     $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE `id` = ? ORDER BY `id` DESC");
     $stmt->bind_param("i", $id);
     } else {
-
     $stmt = $obj->con1->prepare("SELECT * FROM `product` ORDER BY `id` DESC");
     }
 
@@ -70,7 +68,7 @@ while ($row = mysqli_fetch_array($Resp)) {
                             $mechProp = $row['mech_prop'];
 
                             // Check if any of the columns contain data
-                            if (!empty($application) || !empty($specification) || !empty($chemicalComp) || !empty($mechProp)) {
+                            if (!empty($application) || !empty($specification) || !empty($chemicalComp) || !empty($mechProp)) { 
                                 ?>
                                 <!-- Nav Tabs -->
                                 <div class="text-center mb-40 mb-xxs-30">
