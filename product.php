@@ -1,22 +1,22 @@
 <?php
 include "header.php";
 
-// Check if id is set
-$id = isset($_COOKIE['pro_id']) ? intval($_COOKIE['pro_id']) : 0;
+// Check if the product ID is set in the cookie
+$id = isset($_COOKIE['product']) ? intval($_COOKIE['product']) : 0;
 
-// Prepare the SQL query based on the id
-if ($id) {
-    $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE `id` = ? ORDER BY `id` DESC");
-    $stmt->bind_param("i", $id);
+try {
+    if ($id) {
+        $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE `id` = ? ORDER BY `id` DESC");
+        $stmt->bind_param("i", $id);
     } else {
-    $stmt = $obj->con1->prepare("SELECT * FROM `product` ORDER BY `id` DESC");
+        $stmt = $obj->con1->prepare("SELECT * FROM `product` ORDER BY `id` DESC");
     }
+    $stmt->execute();
+    $Resp = $stmt->get_result();
+    $i = 1;
 
-$stmt->execute();
-$Resp = $stmt->get_result();
-$i = 1;
-while ($row = mysqli_fetch_array($Resp)) {
-    ?>
+    while ($row = mysqli_fetch_array($Resp)) {
+?>
     <main id="main">
         <!-- Header Section -->
         <section class="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
@@ -143,10 +143,11 @@ while ($row = mysqli_fetch_array($Resp)) {
     </main>
 
     <?php
-    $i++;
+        $i++;
     }
-?>
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 
-<?php
 include "footer.php";
 ?>

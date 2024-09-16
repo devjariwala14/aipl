@@ -242,48 +242,49 @@ include "header.php";
     <hr class="mt-0 mb-0">
     <!-- End Divider -->
 
-    <!-- Team Section -->
     <section class="page-section pb-0" id="team">
-        <div class="container">
-
-            <div class="row mb-70 mb-sm-50">
-                <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
-                    <h2 class="section-title mb-30 mb-sm-20"><span class="text-gray">Product </span>Category<span
-                            class="text-gray">.</span></h2>
-                </div>
+    <div class="container">
+        <div class="row mb-70 mb-sm-50">
+            <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
+                <h2 class="section-title mb-30 mb-sm-20"><span class="text-gray">Product </span>Category<span class="text-gray">.</span></h2>
             </div>
+        </div>
 
-            <div class="row mt-n40">
-                <?php
-                $stmt = $obj->con1->prepare("SELECT * FROM `product_category`ORDER BY `category` DESC");
-                $stmt->execute();
-                $Resp = $stmt->get_result();
-                $i = 1;
-                while ($row = mysqli_fetch_array($Resp)) { ?>
-                    <div class="col-md-4 mt-40">
-                        <div class="team-item">
-                            <div class="team-item-image">
-                                <a href="category.php?category=<?php echo $row['category']; ?>">
-                                    <img src="dashboard/images/product_category/<?php echo $row['image']; ?>"
-                                        class="wow scaleOutIn" data-wow-duration="1.2s" alt="Image Description" width="410"
-                                        height="270" />
-                                </a>
-                            </div>
-                            <div class="team-item-descr">
-                                <div class="team-item-name">
-                                    <?php echo $row['category']; ?>
-                                </div>
+        <div class="row mt-n40">
+            <?php
+            $stmt = $obj->con1->prepare("SELECT * FROM `product_category` ORDER BY `category` DESC");
+            $stmt->execute();
+            $Resp = $stmt->get_result();
+            while ($row = mysqli_fetch_array($Resp)) { ?>
+                <div class="col-md-4 mt-40">
+                    <div class="team-item">
+                        <div class="team-item-image">
+                            <!-- Update the link to use JavaScript for setting a cookie and redirecting -->
+                            <a href="javascript:void(0);" onclick="setCategory('<?php echo $row['id']; ?>');">
+                                <img src="dashboard/images/product_category/<?php echo $row['image']; ?>" class="wow scaleOutIn" data-wow-duration="1.2s" alt="Image Description" width="410" height="270" />
+                            </a>
+                        </div>
+                        <div class="team-item-descr">
+                            <div class="team-item-name">
+                                <?php echo $row['category']; ?>
                             </div>
                         </div>
                     </div>
-
-                    <?php
-                    } ?>
-                <!-- End Team item -->
-            </div>
-
+                </div>
+            <?php } ?>
+            <!-- End Team item -->
         </div>
-    </section>
+    </div>
+</section>
+
+<script>
+    // JavaScript function to set a cookie and redirect
+    function setCategory(category) {
+        document.cookie = "category=" + category + "; path=/";  // Set cookie with category
+        window.location.href = "category.php";  // Redirect to category.php without URL parameters
+    }
+</script>
+
     <!-- End Team Section -->
     <!-- End Call Action Section -->
 

@@ -1,15 +1,14 @@
 <?php
 include "header.php";
 
-// Check if 'category' is set in the URL
-if (isset($_GET['category'])) {
-    echo $category = $_GET['category'];
-
-    // Prepare and execute the query to get products for the selected category
-    $stmt = $obj->con1->prepare("SELECT * FROM `product` WHERE `category` = ?");
+if (isset($_COOKIE['category'])) {
+    $category = $_COOKIE['category'];
+    $stmt = $obj->con1->prepare("SELECT p.*, pc.category FROM `product` p JOIN `product_category` pc ON p.category = pc.id  WHERE p.category = ?");
     $stmt->bind_param("s", $category);
     $stmt->execute();
     $Resp = $stmt->get_result();
+    $firstRow = $Resp->fetch_assoc();
+    $category_name = $firstRow['category'];
     ?>
 
     <!-- Services Section -->
@@ -19,7 +18,7 @@ if (isset($_GET['category'])) {
             <div class="container position-relative">
                 <div class="row mb-70 mb-sm-50">
                     <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
-                        <h2 class="section-title mb-30 mb-sm-20">Category</h2>
+                        <h2 class="section-title mb-30 mb-sm-20">Category: <?php echo $category_name; ?></h2> 
                     </div>
                 </div>
             </div>
@@ -28,13 +27,13 @@ if (isset($_GET['category'])) {
         <div class="container mt-n140 position-relative z-index-1">
             <div class="row mb-n30">
                 <?php
-                // Loop through the products and display them side by side
+                $Resp->data_seek(0); 
                 while ($row = $Resp->fetch_assoc()) {
                     ?>
                     <!-- Services Item -->
                     <div class="col-md-6 col-lg-4 d-flex align-items-stretch mb-30">
                         <div class="services-3-item round text-center">
-                            <a href="product.php?productId=<?php echo $row['id']; ?>">
+                            <a href="javascript:void(0);"  onclick="setProduct(<?php echo $row['id']; ?>)">
                                 <div class="wow fadeInUpShort animated" data-wow-offset="50"
                                     style="visibility: visible; animation-name: fadeInUpShort;">
 
@@ -56,15 +55,25 @@ if (isset($_GET['category'])) {
                     </div>
                     <!-- End Services Item -->
                     <?php
-                    }
+                }
                 ?>
             </div>
         </div>
     </section>
     <!-- End Services Section -->
+    
+
+ <script>
+function setProduct(productId) {
+    document.cookie = "product=" + productId + "; path=/";
+    window.location.href = "product.php";
+}
+</script>
+
     <?php
-    } else {
+} else {
     echo "<h2>No category selected.</h2>";
-    }
+}
+
 include "footer.php";
 ?>
