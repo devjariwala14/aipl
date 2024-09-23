@@ -202,7 +202,7 @@ if (isset($_REQUEST["update"])) {
                             <label class="font-bold text-primary mt-2  mb-3"
                                 style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>">Preview</label>
                             <img src="<?php echo (isset($mode)) ? 'images/product_category/' . $data['image'] : '' ?>"
-                                name="PreviewImage" id="PreviewImage" height="300"
+                                name="PreviewImage" id="PreviewImage" height="300" width="400"
                                 style="display:<?php echo (isset($mode)) ? 'block' : 'none' ?>"
                                 class="object-cover shadow rounded">
                             <div id="imgdiv2" style="color:red"></div>

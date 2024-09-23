@@ -93,7 +93,7 @@ session_start();
                 <div class="main-nav-sub full-wrapper">
                     <div class="nav-logo-wrap local-scroll">
                         <a href="index.php" class="logo">
-                            <img src="images/AIPL Logo.png" alt="Your Company Logo" width="105" height="34">
+                            <img src="images/AIPL Logo.png" alt="Your Company Logo" width="105" >
                         </a>
                     </div>
 

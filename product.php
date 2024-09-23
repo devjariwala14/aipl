@@ -52,7 +52,7 @@ try {
                             <div class="blog-item-body">
                                 <!-- Media Gallery -->
                                 <div class="blog-media mb-40 mb-xs-30">
-                                    <img src="dashboard/images/product/<?php echo $row["image"]; ?>"
+                                    <img src="dashboard/images/product/<?php echo $row["image"]; ?>" height="720" width="1290"
                                         alt="Image Description">
                                 </div>
                             </div>

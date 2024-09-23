@@ -104,9 +104,9 @@ if (isset($_REQUEST["submit_btn"])) {
                                 </div>
                                 <h4 class="alt-features-title">Say hello</h4>
                                 <div class="alt-features-descr clearlinks">
-                                    <div><a href="mailto:support@bestlooker.pro">contact@abhishekispat.com</a>
+                                    <div><a href="mailto:support@bestlooker.pro">info@abhishekispat.com</a>
                                     </div>
-                                    <div>+91 09825034445</div>
+                                    <div>+91 9825034445</div>
                                 </div>
                             </div>
                         </div>
@@ -125,12 +125,13 @@ if (isset($_REQUEST["submit_btn"])) {
                                     </svg>
                                 </div>
                                 <h4 class="alt-features-title">Location</h4>
-                                <div class="alt-features-descr">
+                                <div class="alt-features-descr" style="text-transform: capitalize;">
                                     PLOT NO A-25/2/1, Ichhapore GIDC, Bhatpore, Hazira, Gujarat 394510.
                                 </div>
                             </div>
                         </div>
                         <!-- End Contact Item -->
+
 
                     </div>
 
@@ -221,10 +222,7 @@ if (isset($_REQUEST["submit_btn"])) {
 
                     <!-- Google Map -->
                     <div class="map-boxed">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3071.5318265717196!2d-75.60465104752062!3d39.660249785873326!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c703f3cdadbfdb%3A0x80d20252268fc006!2zMjQ1IFF1aWdsZXkgQmx2ZCBzdGUgaywgTmV3IENhc3RsZSwgREUgMTk3MjAsINCh0L_QvtC70YPRh9C10L3RliDQqNGC0LDRgtC4INCQ0LzQtdGA0LjQutC4!5e0!3m2!1suk!2sua!4v1662469609333!5m2!1suk!2sua"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.0761249913676!2d72.72935857343951!3d21.18913468225445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04d6883795149%3A0x4d7849e93ce4fafb!2sABHISHEK%20ISPAT%20PRIVATE%20LIMITED!5e0!3m2!1sen!2sin!4v1726834412228!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <!-- End Google Map -->
 
@@ -237,11 +235,11 @@ if (isset($_REQUEST["submit_btn"])) {
     <!-- End Contact Section -->
 </main>
 <?php if ($messageSent): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            alert('Message sent successfully!');
-        });
-    </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    alert('Message sent successfully!');
+});
+</script>
 <?php endif; ?>
 <?php
 include "footer.php";

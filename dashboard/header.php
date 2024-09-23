@@ -5,7 +5,7 @@ date_default_timezone_set('Asia/Kolkata');
 $obj = new DB_Connect();
 session_start();
 
-if (!isset($_SESSION["userlogin"])) {
+if (!isset($_SESSION["userlogin_aipl"])) {
   header("location:login.php");
   }
 

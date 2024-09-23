@@ -4,7 +4,7 @@
         <div class="row justify-content-between">
             <div class="col-md-4 col-lg-4 text-gray mb-sm-50">
                 <div class="mb-30">
-                    <img src="images/AIPL Logo.png" width="105" height="34" alt="Your Company Logo">
+                    <img src="images/AIPL Logo.png" width="105" alt="Your Company Logo">
                 </div>
                 <p>
                     Established in year 2000. Abhishek Ispat Pvt. Ltd. is

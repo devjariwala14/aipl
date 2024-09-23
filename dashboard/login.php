@@ -20,7 +20,7 @@ if(isset($_REQUEST["submit"])){
     $qr->close();
     if($row["username"]==$ui && $row["password"]==$pa)
     {
-      $_SESSION["userlogin"]="true";
+      $_SESSION["userlogin_aipl"]="true";
       $_SESSION["id"]=$row["id"];
       $_SESSION["userid"]=$ui;
       $_SESSION["username"]=$row["username"];
@@ -29,8 +29,8 @@ if(isset($_REQUEST["submit"])){
     }
     else
     {
-      setcookie("login", "wrong_pass",time()+3600,"/");
-    header("location:login.php?msg=Incorect UserId/Password");	
+      setcookie("submit", "wrong_pass",time()+3600,"/");
+    header("location:login.php");	
      }
     
 
@@ -75,7 +75,35 @@ if(isset($_REQUEST["submit"])){
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<script type="text/javascript">
+      function createCookie(name, value, days) {
+        var expires;
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toGMTString();
+        } else {
+            expires = "";
+        }
+        document.cookie = (name) + "=" + String(value) + expires + ";path=/ ";
 
+    }
+
+    function readCookie(name) {
+        var nameEQ = (name) + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return (c.substring(nameEQ.length, c.length));
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        createCookie(name, "", -1);
+    }
+</script>
 <body>
 
   <main>
@@ -85,6 +113,26 @@ if(isset($_REQUEST["submit"])){
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <?php 
+            if(isset($_COOKIE["submit"]) )
+            {
+
+              if($_COOKIE['submit']=="wrong_pass")
+              {
+
+              ?>
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                Incorect UserId/Password.Please Try Again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+              </div>
+              <script type="text/javascript">eraseCookie("submit")</script>
+              <?php
+              }
+            }
+              
+            ?>
+
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
